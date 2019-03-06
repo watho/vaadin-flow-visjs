@@ -5,9 +5,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.wathoserver.vaadin</groupId>
-	<artifactId>visjs-addon</artifactId>
+	<artifactId>visjs-vaadin-component</artifactId>
 	<version>0.0.1</version>
-	<name>VaadinFlowVisJsAddOn</name>
+	<name>visjs-vaadin-component</name>
 	<description>Integration of vis.js library for Vaadin platform</description>
 
 	<properties>
