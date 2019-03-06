@@ -203,7 +203,7 @@ public class NetworkDiagram extends Component implements HasSize {
   /**
    * Creates a ListDataProvider with the given items.
    *
-   * @param nodes
+   * @param edges
    */
   public void setEdges(Collection<Edge> edges) {
     setEdgesDataProvider(new ListDataProvider<>(edges));
@@ -212,7 +212,7 @@ public class NetworkDiagram extends Component implements HasSize {
   /**
    * Creates a ListDataProvider with the given items.
    *
-   * @param nodes
+   * @param edges
    */
   public void setEdges(Edge... edges) {
     setEdgesDataProvider(new ListDataProvider<>(Arrays.asList(edges)));

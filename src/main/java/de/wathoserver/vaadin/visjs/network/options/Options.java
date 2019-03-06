@@ -2,7 +2,6 @@ package de.wathoserver.vaadin.visjs.network.options;
 
 import java.util.HashMap;
 
-import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,7 +32,6 @@ public class Options {
   // private Cluster clustering;
   private Layout layout;
 
-  @Generated("SparkTools")
   private Options(Builder builder) {
     this.clickToUse = builder.clickToUse;
     this.autoResize = builder.autoResize;
@@ -216,7 +214,6 @@ public class Options {
    *
    * @return created builder
    */
-  @Generated("SparkTools")
   public static Builder builder() {
     return new Builder();
   }
@@ -224,7 +221,6 @@ public class Options {
   /**
    * Builder to build {@link Options}.
    */
-  @Generated("SparkTools")
   public static final class Builder {
     private boolean clickToUse;
     private boolean autoResize;

@@ -15,7 +15,7 @@ public abstract class Event extends ComponentEvent<NetworkDiagram> {
    *
    * @param source
    * @param fromClient
-   * @param jsonObject
+   * @param params
    */
   public Event(NetworkDiagram source, boolean fromClient, final JsonObject params) {
     super(source, fromClient);
