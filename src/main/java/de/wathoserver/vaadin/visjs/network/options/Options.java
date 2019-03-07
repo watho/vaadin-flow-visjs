@@ -49,20 +49,7 @@ public class Options {
     this.layout = builder.layout;
   }
 
-  public Options() {
-    configure = new Configure();
-    manipulation = new Manipulation();
-    interaction = new Interaction();
-    locales = new HashMap<>();
-    locales.put("en", new Locale());
-    final Arrows ar = new Arrows(new ArrowHead());
-    edges = new Edges();
-    edges.setArrows(ar);
-    nodes = new Nodes();
-    groups = new HashMap<>();
-    physics = new Physics();
-    layout = new Layout();
-  }
+  public Options() {}
 
   public HashMap<String, Group> getGroups() {
     return groups;
@@ -210,12 +197,21 @@ public class Options {
   }
 
   /**
-   * Creates builder to build {@link Options}.
+   * Creates builder to build {@link Options}. Starts with reasonable defaults.
    *
    * @return created builder
    */
   public static Builder builder() {
-    return new Builder();
+    return new Builder(true);
+  }
+
+  /**
+   * Creates builder to build {@link Options}. Starts with empty options. Caution: Beware of NPEs!
+   *
+   * @return created builder
+   */
+  public static Builder builderEmpty() {
+    return new Builder(false);
   }
 
   /**
@@ -227,29 +223,31 @@ public class Options {
     private String locale;
     private String height;
     private String width;
-    private HashMap<String, Locale> locales = new HashMap<>();
-    private Configure configure = new Configure();
-    private Manipulation manipulation = new Manipulation();
-    private Interaction interaction = new Interaction();
+    private HashMap<String, Locale> locales;
+    private Configure configure;
+    private Manipulation manipulation;
+    private Interaction interaction;
     private HashMap<String, Group> groups;
     private Physics physics;
     private Edges edges;
     private Nodes nodes;
     private Layout layout;
 
-    private Builder() {
-      configure = new Configure();
-      manipulation = new Manipulation();
-      interaction = new Interaction();
-      locales = new HashMap<>();
-      locales.put("en", new Locale());
-      final Arrows ar = new Arrows(new ArrowHead());
-      edges = new Edges();
-      edges.setArrows(ar);
-      nodes = new Nodes();
-      groups = new HashMap<>();
-      physics = new Physics();
-      layout = new Layout();
+    private Builder(final boolean setDefaults) {
+      if (setDefaults) {
+        configure = new Configure();
+        manipulation = new Manipulation();
+        interaction = new Interaction();
+        locales = new HashMap<>();
+        locales.put("en", new Locale());
+        final Arrows ar = new Arrows(new ArrowHead());
+        edges = new Edges();
+        edges.setArrows(ar);
+        nodes = new Nodes();
+        groups = new HashMap<>();
+        physics = new Physics();
+        layout = new Layout();
+      }
     }
 
     @Nonnull

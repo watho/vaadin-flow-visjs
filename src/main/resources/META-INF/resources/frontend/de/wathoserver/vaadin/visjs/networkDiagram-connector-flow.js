@@ -1,5 +1,5 @@
 window.Vaadin.Flow.networkDiagramConnector = {
-	initLazy : function(graph, options) {
+	initLazy : function(graph, initialNodes, initialEdges, options) {
 
 		// Check whether the connector was already initialized for the Iron list
 		if (graph.$connector) {
@@ -9,9 +9,9 @@ window.Vaadin.Flow.networkDiagramConnector = {
 
 		graph.$connector = {};
 
-		graph.nodes = new vis.DataSet([]);
-		graph.edges = new vis.DataSet([]);
-		
+		graph.nodes = new vis.DataSet(JSON.parse(initialNodes));
+		graph.edges = new vis.DataSet(JSON.parse(initialEdges));
+
 		var self = this;
 		var customNodeifAdded = false;
 		var customNodeID;
@@ -49,6 +49,7 @@ window.Vaadin.Flow.networkDiagramConnector = {
 			self.onManipulationEdgeEdited(edgeData);
 			callback(edgeData);
 		};
+		console.log("networkdiagram options: " + JSON.stringify(graph.options));
 		graph.$connector.diagram = new vis.Network(graph, {
 			nodes : graph.nodes,
 			edges : graph.edges
@@ -58,30 +59,33 @@ window.Vaadin.Flow.networkDiagramConnector = {
 		// avoid to much overhead.
 		graph.$connector.enableEventDispatching = function(vaadinEventType) {
 			const eventType = vaadinEventType.substring(7);
-			console.log("registered eventType " + eventType);
-			graph.$connector.diagram.redraw();
 			graph.$connector.diagram
 					.on(
 							eventType,
 							function(params) {
-								// removing dom nodes from params cause they
-								// can't send back to server.
-								delete params.event.firstTarget;
-								delete params.event.target;
-								JSON
-										.stringify(
-												params,
-												function(key, value) {
-													if (value instanceof Node) {
-														console
-																.log("Message JsonObject contained a dom node reference  "
-																		+ key
-																		+ "  which "
-																		+ "should not be sent to the server and can cause a cyclic dependecy.");
-														delete params[key];
-													}
-													return value;
-												});
+								if (params != null) {
+									// removing dom nodes from params cause they
+									// can't send back to server.
+									if (params.hasOwnProperty('event')) {
+										// source of click event
+										delete params.event.firstTarget;
+										delete params.event.target;
+									}
+									JSON
+											.stringify(
+													params,
+													function(key, value) {
+														if (value instanceof Node) {
+															console
+																	.log("Message JsonObject contained a dom node reference  "
+																			+ key
+																			+ "  which "
+																			+ "should not be sent to the server and can cause a cyclic dependecy.");
+															delete params[key];
+														}
+														return value;
+													});
+								}
 								graph.dispatchEvent(new CustomEvent(
 										vaadinEventType, {
 											detail : params
