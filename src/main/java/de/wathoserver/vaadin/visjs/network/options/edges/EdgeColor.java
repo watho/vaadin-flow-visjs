@@ -1,4 +1,4 @@
-package de.wathoserver.vaadin.visjs.network.util;
+package de.wathoserver.vaadin.visjs.network.options.edges;
 
 public class EdgeColor {
 

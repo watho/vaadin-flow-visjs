@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.wathoserver.vaadin.visjs.network.options.nodes.Nodes;
 import de.wathoserver.vaadin.visjs.network.util.Shape;
 
@@ -14,15 +16,16 @@ public class Node extends Nodes {
   private String label;
   private String group;
 
+  @JsonIgnore
   private transient List<Edge> edgeList = new ArrayList<>();;
+  @JsonIgnore
   private transient Map<String, Edge> edgeMap = new HashMap<>();;
 
-  public Node() {
+  public Node() {}
 
-  }
-
-  public Node(int id, String label) {
-    this.id = Integer.toString(id);
+  public Node(String id, String label, Builder builder) {
+    super(builder);
+    this.id = id;
     this.label = label;
   }
 

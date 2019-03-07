@@ -9,8 +9,10 @@ window.Vaadin.Flow.networkDiagramConnector = {
 
 		graph.$connector = {};
 
+		console.log(initialNodes);
 		graph.nodes = new vis.DataSet(JSON.parse(initialNodes));
 		graph.edges = new vis.DataSet(JSON.parse(initialEdges));
+		
 
 		var self = this;
 		var customNodeifAdded = false;

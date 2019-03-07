@@ -1,6 +1,11 @@
 package de.wathoserver.vaadin.visjs.network.options.nodes;
 
-import de.wathoserver.vaadin.visjs.network.util.Color;
+import javax.annotation.Nonnull;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import de.wathoserver.vaadin.visjs.network.util.Fixed;
 import de.wathoserver.vaadin.visjs.network.util.Font;
 import de.wathoserver.vaadin.visjs.network.util.Scaling;
@@ -9,38 +14,73 @@ import de.wathoserver.vaadin.visjs.network.util.Shape;
 import de.wathoserver.vaadin.visjs.network.util.ShapeProperties;
 
 /**
- * Created by roshans on 10/29/14. Updated to latest elements by Martin Prause 4.8.2017
  */
+@JsonDeserialize(builder = Nodes.Builder.class)
 public class Nodes {
 
-  private int borderWidth = 1;
-  private int borderWidthSelected;
-  private boolean chosen = true;
-  private Color color;
-  private Fixed fixed = new Fixed();
+  private Integer borderWidth;
+  private Integer borderWidthSelected;
+  private Boolean chosen;
+  // Color needs special handling for object versus string
+  @JsonIgnore
+  private NodeColor color;
+  @JsonIgnore
+  private String colorStr;
+  private Fixed fixed;
   private Font font;
   // group
-  private boolean heightConstraint = false;
-  private boolean hidden = false;
+  private Boolean heightConstraint;
+  private Boolean hidden;
   private Icon icon;
   private String image;
   private String brokenImage;
 
-  private boolean labelHighlightBold = true;
+  private Boolean labelHighlightBold;
   private Integer level;
-  private int mass = 1;
-  private boolean physics = true;
+  private Integer mass;
+  private Boolean physics;
   private Scaling scaling;
   private Shadow shadow;
-  private Shape shape = Shape.ellipse;
+  private Shape shape;
   private ShapeProperties shapeProperties;
 
-  private int size = 25;
-  private String title = null;
-  private String value = null;
+  private Integer size;
+  private String title;
+  private String value;
   private WidthConstraint widthConstraint;
-  private Integer x = null;
-  private Integer y = null;
+  private Integer x;
+  private Integer y;
+
+  protected Nodes(Builder builder) {
+    this.borderWidth = builder.borderWidth;
+    this.borderWidthSelected = builder.borderWidthSelected;
+    this.chosen = builder.chosen;
+    this.color = builder.color;
+    this.colorStr = builder.colorStr;
+    this.fixed = builder.fixed;
+    this.font = builder.font;
+    this.heightConstraint = builder.heightConstraint;
+    this.hidden = builder.hidden;
+    this.icon = builder.icon;
+    this.image = builder.image;
+    this.brokenImage = builder.brokenImage;
+    this.labelHighlightBold = builder.labelHighlightBold;
+    this.level = builder.level;
+    this.mass = builder.mass;
+    this.physics = builder.physics;
+    this.scaling = builder.scaling;
+    this.shadow = builder.shadow;
+    this.shape = builder.shape;
+    this.shapeProperties = builder.shapeProperties;
+    this.size = builder.size;
+    this.title = builder.title;
+    this.value = builder.value;
+    this.widthConstraint = builder.widthConstraint;
+    this.x = builder.x;
+    this.y = builder.y;
+  }
+
+  public Nodes() {}
 
   public boolean isChosen() {
     return chosen;
@@ -78,12 +118,37 @@ public class Nodes {
     this.borderWidthSelected = borderWidthSelected;
   }
 
-  public Color getColor() {
+  /**
+   * if set colorStr returns
+   *
+   * @return colorStr if set, else color else null
+   */
+  @JsonGetter(value = "color")
+  protected Object getColorJson() {
+    if (color != null) {
+      return color;
+    } else if (colorStr != null) {
+      return colorStr;
+    }
+    return null;
+  }
+
+  public String getColorStr() {
+    return colorStr;
+  }
+
+  public NodeColor getColor() {
     return color;
   }
 
-  public void setColor(final Color color) {
+  public void setColor(final NodeColor color) {
     this.color = color;
+    this.colorStr = null;
+  }
+
+  public void setColor(final String color) {
+    this.colorStr = color;
+    this.color = null;
   }
 
   public Font getFont() {
@@ -239,35 +304,214 @@ public class Nodes {
   }
 
   public Fixed getFixed() {
-    if (fixed == null) {
-      fixed = new Fixed();
-    }
     return fixed;
-  }
-
-  public void setFixed(final boolean fixed) {
-    getFixed().setX(fixed);
-    getFixed().setY(fixed);
   }
 
   public void setFixed(final Fixed fixed) {
     this.fixed = fixed;
   }
 
-  public boolean isFixedX() {
-    return getFixed().isX();
+  /**
+   * Creates builder to build {@link Nodes}.
+   *
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
   }
 
-  public void setFixedX(final boolean fixedX) {
-    getFixed().setX(fixedX);
-  }
+  /**
+   * Builder to build {@link Nodes}.
+   */
+  public static final class Builder {
+    private Integer borderWidth;
+    private Integer borderWidthSelected;
+    private Boolean chosen;
+    private NodeColor color;
+    private String colorStr;
+    private Fixed fixed;
+    private Font font;
+    private Boolean heightConstraint;
+    private Boolean hidden;
+    private Icon icon;
+    private String image;
+    private String brokenImage;
+    private Boolean labelHighlightBold;
+    private Integer level;
+    private Integer mass;
+    private Boolean physics;
+    private Scaling scaling;
+    private Shadow shadow;
+    private Shape shape;
+    private ShapeProperties shapeProperties;
+    private Integer size;
+    private String title;
+    private String value;
+    private WidthConstraint widthConstraint;
+    private Integer x;
+    private Integer y;
 
-  public boolean isFixedY() {
-    return getFixed().isY();
-  }
+    private Builder() {}
 
-  public void setFixedY(final boolean fixedY) {
-    getFixed().setY(fixedY);
-  }
+    @Nonnull
+    public Builder withBorderWidth(Integer borderWidth) {
+      this.borderWidth = borderWidth;
+      return this;
+    }
 
+    @Nonnull
+    public Builder withBorderWidthSelected(Integer borderWidthSelected) {
+      this.borderWidthSelected = borderWidthSelected;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withChosen(Boolean chosen) {
+      this.chosen = chosen;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withColor(NodeColor color) {
+      this.color = color;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withColorStr(String colorStr) {
+      this.colorStr = colorStr;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withFixed(Fixed fixed) {
+      this.fixed = fixed;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withFont(Font font) {
+      this.font = font;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withHeightConstraint(Boolean heightConstraint) {
+      this.heightConstraint = heightConstraint;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withHidden(Boolean hidden) {
+      this.hidden = hidden;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withIcon(Icon icon) {
+      this.icon = icon;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withImage(String image) {
+      this.image = image;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withBrokenImage(String brokenImage) {
+      this.brokenImage = brokenImage;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withLabelHighlightBold(Boolean labelHighlightBold) {
+      this.labelHighlightBold = labelHighlightBold;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withLevel(Integer level) {
+      this.level = level;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withMass(Integer mass) {
+      this.mass = mass;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withPhysics(Boolean physics) {
+      this.physics = physics;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withScaling(Scaling scaling) {
+      this.scaling = scaling;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withShadow(Shadow shadow) {
+      this.shadow = shadow;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withShape(Shape shape) {
+      this.shape = shape;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withShapeProperties(ShapeProperties shapeProperties) {
+      this.shapeProperties = shapeProperties;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withSize(Integer size) {
+      this.size = size;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withTitle(String title) {
+      this.title = title;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withValue(String value) {
+      this.value = value;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withWidthConstraint(WidthConstraint widthConstraint) {
+      this.widthConstraint = widthConstraint;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withx(Integer x) {
+      this.x = x;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withy(Integer y) {
+      this.y = y;
+      return this;
+    }
+
+    @Nonnull
+    public Nodes build() {
+      return new Nodes(this);
+    }
+  }
 }

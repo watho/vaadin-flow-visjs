@@ -3,7 +3,6 @@ package de.wathoserver.vaadin.visjs.network.options.edges;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.wathoserver.vaadin.visjs.network.options.nodes.WidthConstraint;
-import de.wathoserver.vaadin.visjs.network.util.EdgeColor;
 import de.wathoserver.vaadin.visjs.network.util.Font;
 import de.wathoserver.vaadin.visjs.network.util.Scaling;
 import de.wathoserver.vaadin.visjs.network.util.Shadow;

@@ -1,19 +1,27 @@
 package de.wathoserver.vaadin.visjs.network.util;
 
-/**
- * Created by Martin Prause 5.8.2017
- */
+import javax.annotation.Nonnull;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(builder = FontStyle.Builder.class)
 public class FontStyle {
 
-  private String color = "#343434";
-  private int size = 14;
-  private String face = "arial";
-  private int vadjust = 0;
-  private Style mod = Style.bold;
+  private String color;
+  private Integer size;
+  private String face;
+  private Integer vadjust;
+  private Style mod;
 
-  FontStyle(Style style) {
-    this.mod = style;
+  private FontStyle(Builder builder) {
+    this.color = builder.color;
+    this.size = builder.size;
+    this.face = builder.face;
+    this.vadjust = builder.vadjust;
+    this.mod = builder.mod;
   }
+
+  FontStyle() {}
 
   public String getColor() {
     return color;
@@ -57,6 +65,63 @@ public class FontStyle {
 
   public static enum Style {
     bold, italic, bolditalic, mono;
+  }
+
+  /**
+   * Creates builder to build {@link FontStyle}.
+   *
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Builder to build {@link FontStyle}.
+   */
+  public static final class Builder {
+    private String color;
+    private Integer size;
+    private String face;
+    private Integer vadjust;
+    private Style mod;
+
+    private Builder() {}
+
+    @Nonnull
+    public Builder withColor(String color) {
+      this.color = color;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withSize(Integer size) {
+      this.size = size;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withFace(String face) {
+      this.face = face;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withVadjust(Integer vadjust) {
+      this.vadjust = vadjust;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withMod(Style mod) {
+      this.mod = mod;
+      return this;
+    }
+
+    @Nonnull
+    public FontStyle build() {
+      return new FontStyle(this);
+    }
   }
 
 }

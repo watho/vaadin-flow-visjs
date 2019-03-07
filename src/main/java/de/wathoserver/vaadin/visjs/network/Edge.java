@@ -1,7 +1,7 @@
 package de.wathoserver.vaadin.visjs.network;
 
+import de.wathoserver.vaadin.visjs.network.options.edges.EdgeColor;
 import de.wathoserver.vaadin.visjs.network.options.edges.Edges;
-import de.wathoserver.vaadin.visjs.network.util.EdgeColor;
 
 /**
  */

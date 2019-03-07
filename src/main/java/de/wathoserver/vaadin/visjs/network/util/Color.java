@@ -3,10 +3,10 @@ package de.wathoserver.vaadin.visjs.network.util;
 public class Color {
 
   private String hover;
-  private String highlight = "#D2E5FF";
-  private String border = "#2B7CE9";
-  private String background = "#97C2FC";
-  private String color = "#df6b1d";
+  private String highlight; // = "#D2E5FF";
+  private String border; // = "#2B7CE9";
+  private String background; // = "#97C2FC";
+  private String color; // = "#df6b1d";
   private int opacity = 1;
 
   public Color() {}
