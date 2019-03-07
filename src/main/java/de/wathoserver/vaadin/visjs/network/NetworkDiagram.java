@@ -121,8 +121,6 @@ public class NetworkDiagram extends Component implements HasSize {
   private Registration edgeDataProviderListenerRegistration;
   private Registration nodeDataProviderListenerRegistration;
 
-  private boolean initialised = false;
-
   public NetworkDiagram(final Options options) {
     super();
     // Dont transfer empty options.
@@ -140,37 +138,34 @@ public class NetworkDiagram extends Component implements HasSize {
   }
 
   private void initConnector() {
-    if (!initialised) {
-      String nodesArray = "[]";
-      try {
-        nodesArray = mapper.writeValueAsString(
-            getNodesDataProvider().fetch(new Query<>()).collect(Collectors.toSet()));
-      } catch (final JsonProcessingException e) {
-        e.printStackTrace();
-      }
-      String edgesArray = "[]";
-      try {
-        edgesArray = mapper.writeValueAsString(
-            getEdgesDataProvider().fetch(new Query<>()).collect(Collectors.toSet()));
-      } catch (final JsonProcessingException e) {
-        e.printStackTrace();
-      }
-      getUI()
-          .orElseThrow(() -> new IllegalStateException(
-              "Connector can only be initialized for an attached NetworkDiagram"))
-          .getPage()
-          .executeJavaScript("window.Vaadin.Flow.networkDiagramConnector.initLazy($0, $1, $2, $3)",
-              getElement(), nodesArray, edgesArray, optionsToJson(options));
+    String nodesArray = "[]";
+    try {
+      nodesArray = mapper.writeValueAsString(
+          getNodesDataProvider().fetch(new Query<>()).collect(Collectors.toSet()));
+    } catch (final JsonProcessingException e) {
+      e.printStackTrace();
     }
-    initialised = true;
+    String edgesArray = "[]";
+    try {
+      edgesArray = mapper.writeValueAsString(
+          getEdgesDataProvider().fetch(new Query<>()).collect(Collectors.toSet()));
+    } catch (final JsonProcessingException e) {
+      e.printStackTrace();
+    }
+    getUI()
+        .orElseThrow(() -> new IllegalStateException(
+            "Connector can only be initialized for an attached NetworkDiagram"))
+        .getPage()
+        .executeJavaScript("window.Vaadin.Flow.networkDiagramConnector.initLazy($0, $1, $2, $3)",
+            getElement(), nodesArray, edgesArray, optionsToJson(options));
+    // TODO reinitialise listener
+    // getEventBus().hasListener(eventType)
   }
 
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
-    if (attachEvent.isInitialAttach()) {
-      initConnector();
-    }
+    initConnector();
   }
 
   private String optionsToJson(final Options options) {
