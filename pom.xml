@@ -6,7 +6,7 @@
 
 	<groupId>de.wathoserver.vaadin</groupId>
 	<artifactId>visjs-vaadin-component</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>visjs-vaadin-component</name>
 	<description>Integration of vis.js library for Vaadin platform</description>
 
