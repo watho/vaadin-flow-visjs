@@ -29,15 +29,16 @@ public class DemoView extends VerticalLayout {
     // setWidth("400px");
 
     final NetworkDiagram nd =
-        new NetworkDiagram(Options.builder().withHeight("700px").withWidth("700px").build());
+        new NetworkDiagram(Options.builder().withHeight("400px").withWidth("400px").build());
 
     final List<Node> nodes = new LinkedList<>();
     nodes.add(new Node("1", "Label 1"));
     nodes.add(new Node("2", "Label 2"));
     nodes.add(new Node("3", "Label 3"));
+    nodes.add(new Node("4", "Label 4"));
     final ListDataProvider<Node> dataProvider = new ListDataProvider<>(nodes);
     nd.setNodesDataProvider(dataProvider);
-    nd.setEdges(new Edge("1", "2"), new Edge("2", "3"), new Edge("3", "1"));
+    nd.setEdges(new Edge("1", "2"), new Edge("2", "3"), new Edge("2", "4"), new Edge("3", "1"));
     final Registration registration = nd.addSelectNodeListener(
         ls -> Notification.show("NodeId selected " + ls.getParams().getArray("nodes").toJson()));
     add(nd);
