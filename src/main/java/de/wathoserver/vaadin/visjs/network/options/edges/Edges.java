@@ -1,6 +1,5 @@
 package de.wathoserver.vaadin.visjs.network.options.edges;
 
-import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -370,7 +369,6 @@ public class Edges {
    *
    * @return created builder
    */
-  @Generated("SparkTools")
   public static Builder builder() {
     return new Builder();
   }

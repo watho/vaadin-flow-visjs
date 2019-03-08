@@ -1,6 +1,5 @@
 package de.wathoserver.vaadin.visjs.network.options.nodes;
 
-import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -12,7 +11,6 @@ public class Icon {
   private Integer size;
   private String color;
 
-  @Generated("SparkTools")
   private Icon(Builder builder) {
     this.face = builder.face;
     this.code = builder.code;

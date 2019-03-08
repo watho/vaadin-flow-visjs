@@ -6,8 +6,12 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
- * Maps steam of objects to pairs. Usage e.g. Stream.of("0", "1", "2", "3", "4",
- * "5").sequential().flatMap(new PairCollater<>())
+ * Maps steam of objects to pairs.
+ *
+ * <pre>
+ Usage e.g. Stream.of("0", "1", "2", "3", "4","5")
+   .sequential().flatMap(new {@literal PairCollater<>()})
+ * </pre>
  *
  * @param <T>
  */
