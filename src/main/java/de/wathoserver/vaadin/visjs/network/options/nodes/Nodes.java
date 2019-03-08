@@ -34,7 +34,8 @@ public class Nodes {
   private Icon icon;
   private String image;
   private String brokenImage;
-
+  private String group;
+  private String label;
   private Boolean labelHighlightBold;
   private Integer level;
   private Integer mass;
@@ -64,6 +65,8 @@ public class Nodes {
     this.icon = builder.icon;
     this.image = builder.image;
     this.brokenImage = builder.brokenImage;
+    this.group = builder.group;
+    this.label = builder.label;
     this.labelHighlightBold = builder.labelHighlightBold;
     this.level = builder.level;
     this.mass = builder.mass;
@@ -199,6 +202,22 @@ public class Nodes {
     this.brokenImage = brokenImage;
   }
 
+  public String getGroup() {
+    return group;
+  }
+
+  public void setGroup(String group) {
+    this.group = group;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  public void setLabel(String label) {
+    this.label = label;
+  }
+
   public boolean isLabelHighlightBold() {
     return labelHighlightBold;
   }
@@ -323,7 +342,7 @@ public class Nodes {
   /**
    * Builder to build {@link Nodes}.
    */
-  public static final class Builder {
+  public static class Builder {
     private Integer borderWidth;
     private Integer borderWidthSelected;
     private Boolean chosen;
@@ -336,6 +355,8 @@ public class Nodes {
     private Icon icon;
     private String image;
     private String brokenImage;
+    private String group;
+    private String label;
     private Boolean labelHighlightBold;
     private Integer level;
     private Integer mass;
@@ -351,7 +372,7 @@ public class Nodes {
     private Integer x;
     private Integer y;
 
-    private Builder() {}
+    protected Builder() {}
 
     @Nonnull
     public Builder withBorderWidth(Integer borderWidth) {
@@ -392,6 +413,18 @@ public class Nodes {
     @Nonnull
     public Builder withFont(Font font) {
       this.font = font;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withGroup(String group) {
+      this.group = group;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withLabel(String label) {
+      this.label = label;
       return this;
     }
 

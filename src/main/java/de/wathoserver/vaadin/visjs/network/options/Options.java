@@ -1,13 +1,12 @@
 package de.wathoserver.vaadin.visjs.network.options;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import de.wathoserver.vaadin.visjs.network.options.edges.ArrowHead;
-import de.wathoserver.vaadin.visjs.network.options.edges.Arrows;
 import de.wathoserver.vaadin.visjs.network.options.edges.Edges;
 import de.wathoserver.vaadin.visjs.network.options.edges.Layout;
 import de.wathoserver.vaadin.visjs.network.options.nodes.Nodes;
@@ -15,16 +14,16 @@ import de.wathoserver.vaadin.visjs.network.options.physics.Physics;
 
 public class Options {
 
-  private boolean clickToUse = true;
-  private boolean autoResize = true;
-  private String locale = "en";
-  private String height = "300px";
-  private String width = "300px";
-  private HashMap<String, Locale> locales;
+  private Boolean clickToUse;
+  private Boolean autoResize;
+  private String locale;
+  private String height;
+  private String width;
+  private Map<String, Locale> locales;
   private Configure configure;
   private Manipulation manipulation;
   private Interaction interaction;
-  private HashMap<String, Group> groups;
+  private Map<String, Nodes> groups;
 
   private Physics physics;
   private Edges edges;
@@ -51,24 +50,12 @@ public class Options {
 
   public Options() {}
 
-  public HashMap<String, Group> getGroups() {
+  public Map<String, Nodes> getGroups() {
     return groups;
   }
 
-  public void setGroups(final HashMap<String, Group> groups) {
+  public void setGroups(final Map<String, Nodes> groups) {
     this.groups = groups;
-  }
-
-  public void addGroup(final String name, final Group group) {
-    groups.put(name, group);
-  }
-
-  public void removeGroup(final String name) {
-    groups.remove(name);
-  }
-
-  public void clearGroups() {
-    groups.clear();
   }
 
   public Interaction getInteraction() {
@@ -79,11 +66,11 @@ public class Options {
     this.interaction = interaction;
   }
 
-  public boolean isAutoResize() {
+  public Boolean isAutoResize() {
     return autoResize;
   }
 
-  public void setAutoResize(final boolean autoResize) {
+  public void setAutoResize(final Boolean autoResize) {
     this.autoResize = autoResize;
   }
 
@@ -132,11 +119,11 @@ public class Options {
     return false;
   }
 
-  public boolean isClickToUse() {
+  public Boolean isClickToUse() {
     return clickToUse;
   }
 
-  public void setClickToUse(final boolean clickToUse) {
+  public void setClickToUse(final Boolean clickToUse) {
     this.clickToUse = clickToUse;
   }
 
@@ -156,11 +143,11 @@ public class Options {
     this.width = width;
   }
 
-  public HashMap<String, Locale> getLocales() {
+  public Map<String, Locale> getLocales() {
     return locales;
   }
 
-  public void setLocales(final HashMap<String, Locale> locales) {
+  public void setLocales(final Map<String, Locale> locales) {
     this.locales = locales;
   }
 
@@ -197,67 +184,44 @@ public class Options {
   }
 
   /**
-   * Creates builder to build {@link Options}. Starts with reasonable defaults.
+   * Creates builder to build {@link Options}. For default options for every option not set see
+   * <a href="http://visjs.org/docs/network/#options">http://visjs.org/docs/network/#options</a>
    *
    * @return created builder
    */
   public static Builder builder() {
-    return new Builder(true);
-  }
-
-  /**
-   * Creates builder to build {@link Options}. Starts with empty options. Caution: Beware of NPEs!
-   *
-   * @return created builder
-   */
-  public static Builder builderEmpty() {
-    return new Builder(false);
+    return new Builder();
   }
 
   /**
    * Builder to build {@link Options}.
    */
   public static final class Builder {
-    private boolean clickToUse;
-    private boolean autoResize;
+    private Boolean clickToUse;
+    private Boolean autoResize;
     private String locale;
     private String height;
     private String width;
-    private HashMap<String, Locale> locales;
+    private Map<String, Locale> locales;
     private Configure configure;
     private Manipulation manipulation;
     private Interaction interaction;
-    private HashMap<String, Group> groups;
+    private Map<String, Nodes> groups;
     private Physics physics;
     private Edges edges;
     private Nodes nodes;
     private Layout layout;
 
-    private Builder(final boolean setDefaults) {
-      if (setDefaults) {
-        configure = new Configure();
-        manipulation = new Manipulation();
-        interaction = new Interaction();
-        locales = new HashMap<>();
-        locales.put("en", new Locale());
-        final Arrows ar = new Arrows(new ArrowHead());
-        edges = new Edges();
-        edges.setArrows(ar);
-        nodes = new Nodes();
-        groups = new HashMap<>();
-        physics = new Physics();
-        layout = new Layout();
-      }
-    }
+    private Builder() {}
 
     @Nonnull
-    public Builder withClickToUse(boolean clickToUse) {
+    public Builder withClickToUse(Boolean clickToUse) {
       this.clickToUse = clickToUse;
       return this;
     }
 
     @Nonnull
-    public Builder withAutoResize(boolean autoResize) {
+    public Builder withAutoResize(Boolean autoResize) {
       this.autoResize = autoResize;
       return this;
     }
@@ -305,7 +269,7 @@ public class Options {
     }
 
     @Nonnull
-    public Builder withGroups(HashMap<String, Group> groups) {
+    public Builder withGroups(Map<String, Nodes> groups) {
       this.groups = groups;
       return this;
     }

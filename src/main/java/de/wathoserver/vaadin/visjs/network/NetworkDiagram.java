@@ -13,10 +13,12 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.DomEvent;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.Tag;
@@ -93,6 +95,7 @@ import de.wathoserver.vaadin.visjs.network.listener.StartStabilizingListener;
 import de.wathoserver.vaadin.visjs.network.listener.ZoomListener;
 import de.wathoserver.vaadin.visjs.network.options.Manipulation;
 import de.wathoserver.vaadin.visjs.network.options.Options;
+import de.wathoserver.vaadin.visjs.network.util.PairCollater;
 import elemental.json.JsonArray;
 import elemental.json.impl.JreJsonString;
 
@@ -129,6 +132,9 @@ public class NetworkDiagram extends Component implements HasSize {
     mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
         .withGetterVisibility(Visibility.NONE).withSetterVisibility(Visibility.NONE)
         .withIsGetterVisibility(Visibility.NONE).withFieldVisibility(Visibility.ANY));
+    // remains utf8 escaped chars
+    mapper.configure(Feature.ESCAPE_NON_ASCII, true);
+    // mapper.getFactory().configure(JsonGenerator, true);
     this.options = Objects.requireNonNull(options);
     if (options.getManipulation() == null) {
       options.setManipulation(new Manipulation());
@@ -166,6 +172,13 @@ public class NetworkDiagram extends Component implements HasSize {
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
     initConnector();
+  }
+
+  @Override
+  protected void onDetach(DetachEvent detachEvent) {
+    super.onDetach(detachEvent);
+    // FIXME does not work this.diagamDestroy();
+    enabledEvents.clear();
   }
 
   private String optionsToJson(final Options options) {
@@ -222,6 +235,22 @@ public class NetworkDiagram extends Component implements HasSize {
    */
   public void setEdges(Collection<Edge> edges) {
     setEdgesDataProvider(new ListDataProvider<>(edges));
+  }
+
+  /**
+   * Creates Edges in ListDataProvider with given ids. edgesIds are interpreted as pairs of fromId
+   * and toId. Therefore count has to be even. <br>
+   * e.g. setEdges("1","2","2","3") creates new Edge("1", "2") and new Edge("2", "3");
+   *
+   * @param edgesIds
+   */
+  public void setEdges(String... edgesIds) {
+    if (!(edgesIds.length % 2 == 0)) {
+      throw new IllegalArgumentException("number of arguments has to be even");
+    }
+    final Set<Edge> edges = Arrays.stream(edgesIds).sequential().flatMap(new PairCollater<>())
+        .map(pair -> new Edge(pair.getLeft(), pair.getRight())).collect(Collectors.toSet());
+    this.setEdges(edges);
   }
 
   /**
@@ -359,6 +388,10 @@ public class NetworkDiagram extends Component implements HasSize {
     HasSize.super.setSizeFull();
     runBeforeClientResponse(
         ui -> getElement().callFunction("$connector.diagram.setSize", getWidth(), getHeight()));
+  }
+
+  public void diagamDestroy() {
+    runBeforeClientResponse(ui -> getElement().callFunction("$connector.diagram.destroy"));
   }
 
   // ==== Events ====

@@ -1,45 +1,41 @@
 package de.wathoserver.vaadin.visjs.network.options.edges;
 
+import javax.annotation.Nonnull;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(builder = EdgeColor.Builder.class)
 public class EdgeColor {
 
+  private String color;
+  private String highlight;
   private String hover;
-  private String highlight = "#D2E5FF";
-  private String color = "#df6b1d";
-  private int opacity = 1;
+  private String inherit;
+  private Integer opacity;
+
+  private EdgeColor(Builder builder) {
+    this.color = builder.color;
+    this.highlight = builder.highlight;
+    this.hover = builder.hover;
+    this.inherit = builder.inherit;
+    this.opacity = builder.opacity;
+  }
 
   public EdgeColor() {}
 
-  /**
-   * @param color
-   */
-  public EdgeColor(final String color) {
-    this.color = color;
-  }
-
-  public EdgeColor(final String color, final String highlightColor) {
-    this.color = color;
-    highlight = highlightColor;
-  }
-
-  public EdgeColor(final String color, final String hoverColor, final String highlightColor) {
-    this.color = color;
-    highlight = highlightColor;
-    hover = hoverColor;
-  }
-
-  public int getOpacity() {
+  public Integer getOpacity() {
     return opacity;
   }
 
-  public void setOpacity(final int opacity) {
+  public void setOpacity(final Integer opacity) {
     this.opacity = opacity;
   }
 
-  public String getHoverColor() {
+  public String getHover() {
     return hover;
   }
 
-  public void setHoverColor(final String hover) {
+  public void setHover(final String hover) {
     this.hover = hover;
   }
 
@@ -47,7 +43,7 @@ public class EdgeColor {
     return highlight;
   }
 
-  public void setHighlightColor(final String highlight) {
+  public void setHighlight(final String highlight) {
     this.highlight = highlight;
   }
 
@@ -59,15 +55,68 @@ public class EdgeColor {
     this.color = color;
   }
 
-  public String getHover() {
-    return hover;
+  public String getInherit() {
+    return inherit;
   }
 
-  public void setHover(final String hover) {
-    this.hover = hover;
+  public void setInherit(String inherit) {
+    this.inherit = inherit;
   }
 
-  public void setHighlight(final String highlight) {
-    this.highlight = highlight;
+  /**
+   * Creates builder to build {@link EdgeColor}.
+   *
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Builder to build {@link EdgeColor}.
+   */
+  public static final class Builder {
+    private String color;
+    private String highlight;
+    private String hover;
+    private String inherit;
+    private Integer opacity;
+
+    private Builder() {}
+
+    @Nonnull
+    public Builder withColor(String color) {
+      this.color = color;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withHighlight(String highlight) {
+      this.highlight = highlight;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withHover(String hover) {
+      this.hover = hover;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withInherit(String inherit) {
+      this.inherit = inherit;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withOpacity(Integer opacity) {
+      this.opacity = opacity;
+      return this;
+    }
+
+    @Nonnull
+    public EdgeColor build() {
+      return new EdgeColor(this);
+    }
   }
 }

@@ -1,16 +1,27 @@
 package de.wathoserver.vaadin.visjs.network.util;
 
-/**
- * Created by Martin Prause 5.8.2017
- */
+import javax.annotation.Nonnull;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(builder = ScalingLabel.Builder.class)
 public class ScalingLabel {
 
-  private boolean enabled = true;
-  private int min = 14;
-  private int max = 30;
-  private int maxVisible = 30;
-  private int drawThreshold = 5;
+  private Boolean enabled;
+  private Integer min;
+  private Integer max;
+  private Integer maxVisible;
+  private Integer drawThreshold;
+
+  private ScalingLabel(Builder builder) {
+    this.enabled = builder.enabled;
+    this.min = builder.min;
+    this.max = builder.max;
+    this.maxVisible = builder.maxVisible;
+    this.drawThreshold = builder.drawThreshold;
+  }
+
+  public ScalingLabel() {}
 
   public boolean isEnabled() {
     return enabled;
@@ -20,36 +31,93 @@ public class ScalingLabel {
     this.enabled = enabled;
   }
 
-  public int getMin() {
+  public Integer getMin() {
     return min;
   }
 
-  public void setMin(int min) {
+  public void setMin(Integer min) {
     this.min = min;
   }
 
-  public int getMax() {
+  public Integer getMax() {
     return max;
   }
 
-  public void setMax(int max) {
+  public void setMax(Integer max) {
     this.max = max;
   }
 
-  public int getMaxVisible() {
+  public Integer getMaxVisible() {
     return maxVisible;
   }
 
-  public void setMaxVisible(int maxVisible) {
+  public void setMaxVisible(Integer maxVisible) {
     this.maxVisible = maxVisible;
   }
 
-  public int getDrawThreshold() {
+  public Integer getDrawThreshold() {
     return drawThreshold;
   }
 
-  public void setDrawThreshold(int drawThreshold) {
+  public void setDrawThreshold(Integer drawThreshold) {
     this.drawThreshold = drawThreshold;
+  }
+
+  /**
+   * Creates builder to build {@link ScalingLabel}.
+   *
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Builder to build {@link ScalingLabel}.
+   */
+  public static final class Builder {
+    private Boolean enabled;
+    private Integer min;
+    private Integer max;
+    private Integer maxVisible;
+    private Integer drawThreshold;
+
+    private Builder() {}
+
+    @Nonnull
+    public Builder withEnabled(Boolean enabled) {
+      this.enabled = enabled;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withMin(Integer min) {
+      this.min = min;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withMax(Integer max) {
+      this.max = max;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withMaxVisible(Integer maxVisible) {
+      this.maxVisible = maxVisible;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withDrawThreshold(Integer drawThreshold) {
+      this.drawThreshold = drawThreshold;
+      return this;
+    }
+
+    @Nonnull
+    public ScalingLabel build() {
+      return new ScalingLabel(this);
+    }
   }
 
 }

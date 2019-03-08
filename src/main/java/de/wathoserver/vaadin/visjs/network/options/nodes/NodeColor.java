@@ -2,6 +2,8 @@ package de.wathoserver.vaadin.visjs.network.options.nodes;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -21,7 +23,7 @@ public class NodeColor {
   private SimpleColor highlightColor;
   private String border;
   private String background;
-  private int opacity = 1;
+  private Integer opacity;
 
   private NodeColor(Builder builder) {
     this.hoverStr = builder.hoverStr;
@@ -35,22 +37,17 @@ public class NodeColor {
 
   public NodeColor() {}
 
-  public int getOpacity() {
+  public Integer getOpacity() {
     return opacity;
   }
 
-  public void setOpacity(final int opacity) {
+  public void setOpacity(final Integer opacity) {
     this.opacity = opacity;
   }
 
   @JsonGetter(value = "hover")
   public Object getHover() {
-    if (hoverColor != null) {
-      return hoverColor;
-    } else if (hoverStr != null) {
-      return hoverStr;
-    }
-    return null;
+    return ObjectUtils.firstNonNull(hoverColor, hoverStr);
   }
 
   public SimpleColor getHoverColor() {
@@ -73,12 +70,7 @@ public class NodeColor {
 
   @JsonGetter(value = "highlight")
   public Object getHighlight() {
-    if (highlightColor != null) {
-      return highlightColor;
-    } else if (highlightStr != null) {
-      return highlightStr;
-    }
-    return null;
+    return ObjectUtils.firstNonNull(highlightColor, highlightStr);
   }
 
   public void setHighlight(final SimpleColor highlightColor) {
@@ -109,7 +101,7 @@ public class NodeColor {
 
   /**
    * Creates builder to build {@link NodeColor}.
-   * 
+   *
    * @return created builder
    */
   public static Builder builder() {
@@ -126,7 +118,7 @@ public class NodeColor {
     private SimpleColor highlightColor;
     private String border;
     private String background;
-    private int opacity;
+    private Integer opacity;
 
     private Builder() {}
 
@@ -167,7 +159,7 @@ public class NodeColor {
     }
 
     @Nonnull
-    public Builder withOpacity(int opacity) {
+    public Builder withOpacity(Integer opacity) {
       this.opacity = opacity;
       return this;
     }

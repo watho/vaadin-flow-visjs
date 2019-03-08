@@ -2,10 +2,18 @@ package de.wathoserver.vaadin.visjs.network.util;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+/**
+ * Used by nodes and edges.
+ *
+ * @author watho
+ *
+ */
 @JsonDeserialize(builder = Font.Builder.class)
 public class Font {
 
@@ -127,12 +135,7 @@ public class Font {
 
   @JsonGetter
   protected Object getMulti() {
-    if (multiBoolean != null) {
-      return multiBoolean;
-    } else if (multiStr != null) {
-      return multiStr;
-    }
-    return null;
+    return ObjectUtils.firstNonNull(multiBoolean, monoStr);
   }
 
   public void setMulti(String multiStr) {
@@ -227,7 +230,7 @@ public class Font {
 
   /**
    * Creates builder to build {@link Font}.
-   * 
+   *
    * @return created builder
    */
   public static Builder builder() {
