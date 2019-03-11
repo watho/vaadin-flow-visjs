@@ -23,34 +23,34 @@ window.Vaadin.Flow.networkDiagramConnector = {
 		var customEdgeLabel;
 
 		graph.options = JSON.parse(options);
-		graph.options.manipulation.addNode = function(nodeData, callback) {
-			if (customNodeifAdded == true) {
-				nodeData.label = customNodeLabel;
-				nodeData.id = customNodeID;
-			}
-			self.onManipulationNodeAdded(nodeData);
-			callback(nodeData);
-		};
-		graph.options.manipulation.addEdge = function(edgeData, callback) {
-			if (customEdgeifAdded == true) {
-				edgeData.label = customEdgeLabel;
-				edgeData.id = customEdgeID;
-			}
-			self.onManipulationEdgeAdded(edgeData);
-			callback(edgeData);
-		};
-		graph.options.manipulation.deleteNode = function(nodeData, callback) {
-			self.onManipulationNodeDeleted(nodeData);
-			callback(nodeData);
-		};
-		graph.options.manipulation.deleteEdge = function(edgeData, callback) {
-			self.onManipulationEdgeDeleted(edgeData);
-			callback(edgeData);
-		};
-		graph.options.manipulation.editEdge = function(edgeData, callback) {
-			self.onManipulationEdgeEdited(edgeData);
-			callback(edgeData);
-		};
+//		graph.options.manipulation.addNode = function(nodeData, callback) {
+//			if (customNodeifAdded == true) {
+//				nodeData.label = customNodeLabel;
+//				nodeData.id = customNodeID;
+//			}
+//			self.onManipulationNodeAdded(nodeData);
+//			callback(nodeData);
+//		};
+//		graph.options.manipulation.addEdge = function(edgeData, callback) {
+//			if (customEdgeifAdded == true) {
+//				edgeData.label = customEdgeLabel;
+//				edgeData.id = customEdgeID;
+//			}
+//			self.onManipulationEdgeAdded(edgeData);
+//			callback(edgeData);
+//		};
+//		graph.options.manipulation.deleteNode = function(nodeData, callback) {
+//			self.onManipulationNodeDeleted(nodeData);
+//			callback(nodeData);
+//		};
+//		graph.options.manipulation.deleteEdge = function(edgeData, callback) {
+//			self.onManipulationEdgeDeleted(edgeData);
+//			callback(edgeData);
+//		};
+//		graph.options.manipulation.editEdge = function(edgeData, callback) {
+//			self.onManipulationEdgeEdited(edgeData);
+//			callback(edgeData);
+//		};
 		console.log("networkdiagram options: " + JSON.stringify(graph.options));
 		graph.$connector.diagram = new vis.Network(graph, {
 			nodes : graph.nodes,

@@ -94,7 +94,6 @@ import de.wathoserver.vaadin.visjs.network.listener.StabilizedListener;
 import de.wathoserver.vaadin.visjs.network.listener.StabilizingProgressListener;
 import de.wathoserver.vaadin.visjs.network.listener.StartStabilizingListener;
 import de.wathoserver.vaadin.visjs.network.listener.ZoomListener;
-import de.wathoserver.vaadin.visjs.network.options.Manipulation;
 import de.wathoserver.vaadin.visjs.network.options.Options;
 import de.wathoserver.vaadin.visjs.network.util.PairCollater;
 import elemental.json.JsonArray;
@@ -125,6 +124,10 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
   private Registration edgeDataProviderListenerRegistration;
   private Registration nodeDataProviderListenerRegistration;
 
+  public NetworkDiagram() {
+    this(new Options());
+  }
+
   public NetworkDiagram(final Options options) {
     super();
     // Dont transfer empty options.
@@ -137,9 +140,9 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     mapper.configure(Feature.ESCAPE_NON_ASCII, true);
     // mapper.getFactory().configure(JsonGenerator, true);
     this.options = Objects.requireNonNull(options);
-    if (options.getManipulation() == null) {
-      options.setManipulation(new Manipulation());
-    }
+    // if (options.getManipulation() == null) {
+    // options.setManipulation(new Manipulation());
+    // }
     this.setWidth(options.getWidth());
     this.setHeight(options.getHeight());
   }
