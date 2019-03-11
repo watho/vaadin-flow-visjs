@@ -65,7 +65,7 @@ public class Edges {
   @JsonProperty(value = "widthConstraint.maximum")
   private Integer widthConstraintMaximum;
 
-  private Edges(Builder builder) {
+  protected Edges(Builder builder) {
     this.arrowsObject = builder.arrowsObject;
     this.arrowsStr = builder.arrowsStr;
     this.arrowStrikethrough = builder.arrowStrikethrough;

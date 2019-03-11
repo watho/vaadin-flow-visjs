@@ -21,6 +21,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.DomEvent;
 import com.vaadin.flow.component.HasSize;
+import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.JavaScript;
@@ -108,7 +109,7 @@ import elemental.json.impl.JreJsonString;
 @JavaScript("frontend://de/wathoserver/vaadin/visjs/networkDiagram-connector-flow.js")
 @StyleSheet("frontend://de/wathoserver/vaadin/visjs/vis-network.min.css")
 @StyleSheet("frontend://de/wathoserver/vaadin/visjs/networkDiagram.css")
-public class NetworkDiagram extends Component implements HasSize {
+public class NetworkDiagram extends Component implements HasSize, HasStyle {
 
   Logger log = LoggerFactory.getLogger(NetworkDiagram.class);
 

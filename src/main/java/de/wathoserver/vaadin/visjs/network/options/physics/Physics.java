@@ -1,23 +1,41 @@
 package de.wathoserver.vaadin.visjs.network.options.physics;
 
-/**
- * Created by roshans on 10/29/14.
- */
+import javax.annotation.Nonnull;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(builder = Physics.Builder.class)
 public class Physics {
 
-  private boolean enabled = true;
+  private Boolean enabled;
   private BarnesHut barnesHut;
   private ForceAtlas2Based forceAtlas2Based;
   private Repulsion repulsion;
   private HierarchicalRepulsion hierarchicalRepulsion;
 
-  int maxVelocity = 50;
-  double minVelocity = 0.1f;
-  Solver solver = Solver.barnesHut;
+  Integer maxVelocity;
+  Double minVelocity;
+  Solver solver;
 
-  double timestep = 0.5;
-  boolean adaptiveTimestep = true;
   Stabilization stabilization;
+  Double timestep;
+  Boolean adaptiveTimestep;
+
+  private Physics(Builder builder) {
+    this.enabled = builder.enabled;
+    this.barnesHut = builder.barnesHut;
+    this.forceAtlas2Based = builder.forceAtlas2Based;
+    this.repulsion = builder.repulsion;
+    this.hierarchicalRepulsion = builder.hierarchicalRepulsion;
+    this.maxVelocity = builder.maxVelocity;
+    this.minVelocity = builder.minVelocity;
+    this.solver = builder.solver;
+    this.stabilization = builder.stabilization;
+    this.timestep = builder.timestep;
+    this.adaptiveTimestep = builder.adaptiveTimestep;
+  }
+
+  public Physics() {}
 
   public BarnesHut getBarnesHut() {
     return barnesHut;
@@ -43,11 +61,11 @@ public class Physics {
     this.hierarchicalRepulsion = hierarchicalRepulsion;
   }
 
-  public boolean isEnabled() {
+  public Boolean isEnabled() {
     return enabled;
   }
 
-  public void setEnabled(boolean enabled) {
+  public void setEnabled(Boolean enabled) {
     this.enabled = enabled;
   }
 
@@ -59,19 +77,19 @@ public class Physics {
     this.forceAtlas2Based = forceAtlas2Based;
   }
 
-  public int getMaxVelocity() {
+  public Integer getMaxVelocity() {
     return maxVelocity;
   }
 
-  public void setMaxVelocity(int maxVelocity) {
+  public void setMaxVelocity(Integer maxVelocity) {
     this.maxVelocity = maxVelocity;
   }
 
-  public double getMinVelocity() {
+  public Double getMinVelocity() {
     return minVelocity;
   }
 
-  public void setMinVelocity(double minVelocity) {
+  public void setMinVelocity(Double minVelocity) {
     this.minVelocity = minVelocity;
   }
 
@@ -83,19 +101,19 @@ public class Physics {
     this.solver = solver;
   }
 
-  public double getTimestep() {
+  public Double getTimestep() {
     return timestep;
   }
 
-  public void setTimestep(double timestep) {
+  public void setTimestep(Double timestep) {
     this.timestep = timestep;
   }
 
-  public boolean isAdaptiveTimestep() {
+  public Boolean isAdaptiveTimestep() {
     return adaptiveTimestep;
   }
 
-  public void setAdaptiveTimestep(boolean adaptiveTimestep) {
+  public void setAdaptiveTimestep(Boolean adaptiveTimestep) {
     this.adaptiveTimestep = adaptiveTimestep;
   }
 
@@ -111,4 +129,102 @@ public class Physics {
     barnesHut, repulsion, hierarchicalRepulsion, forceAtlas2Based;
   }
 
+  /**
+   * Creates builder to build {@link Physics}.
+   *
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Builder to build {@link Physics}.
+   */
+  public static final class Builder {
+    private Boolean enabled;
+    private BarnesHut barnesHut;
+    private ForceAtlas2Based forceAtlas2Based;
+    private Repulsion repulsion;
+    private HierarchicalRepulsion hierarchicalRepulsion;
+    private Integer maxVelocity;
+    private Double minVelocity;
+    private Solver solver;
+    private Stabilization stabilization;
+    private Double timestep;
+    private Boolean adaptiveTimestep;
+
+    private Builder() {}
+
+    @Nonnull
+    public Builder withEnabled(Boolean enabled) {
+      this.enabled = enabled;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withBarnesHut(BarnesHut barnesHut) {
+      this.barnesHut = barnesHut;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withForceAtlas2Based(ForceAtlas2Based forceAtlas2Based) {
+      this.forceAtlas2Based = forceAtlas2Based;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withRepulsion(Repulsion repulsion) {
+      this.repulsion = repulsion;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withHierarchicalRepulsion(HierarchicalRepulsion hierarchicalRepulsion) {
+      this.hierarchicalRepulsion = hierarchicalRepulsion;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withMaxVelocity(Integer maxVelocity) {
+      this.maxVelocity = maxVelocity;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withMinVelocity(Double minVelocity) {
+      this.minVelocity = minVelocity;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withSolver(Solver solver) {
+      this.solver = solver;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withStabilization(Stabilization stabilization) {
+      this.stabilization = stabilization;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withTimestep(Double timestep) {
+      this.timestep = timestep;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withAdaptiveTimestep(Boolean adaptiveTimestep) {
+      this.adaptiveTimestep = adaptiveTimestep;
+      return this;
+    }
+
+    @Nonnull
+    public Physics build() {
+      return new Physics(this);
+    }
+  }
 }

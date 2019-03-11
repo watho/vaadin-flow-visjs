@@ -1,6 +1,5 @@
 package de.wathoserver.vaadin.visjs.network;
 
-import de.wathoserver.vaadin.visjs.network.options.edges.EdgeColor;
 import de.wathoserver.vaadin.visjs.network.options.edges.Edges;
 
 /**
@@ -16,9 +15,10 @@ public class Edge extends Edges {
     this.to = to.getId();
   }
 
-  public Edge(final int from, final int to) {
-    this.from = Integer.toString(from);
-    this.to = Integer.toString(to);
+  public Edge(final Node from, final Node to, final Builder builder) {
+    super(builder);
+    this.from = from.getId();
+    this.to = to.getId();
   }
 
   public Edge(final String from, final String to) {
@@ -26,42 +26,10 @@ public class Edge extends Edges {
     this.to = to;
   }
 
-  public Edge(final int from, final int to, final int width) {
-    this.from = Integer.toString(from);
-    this.to = Integer.toString(to);
-    setWidth(width);
-  }
-
-  public Edge(final String from, final String to, final int width) {
+  public Edge(final String from, final String to, final Builder builder) {
+    super(builder);
     this.from = from;
     this.to = to;
-    setWidth(width);
-  }
-
-  public Edge(final int from, final int to, final EdgeColor color) {
-    this.from = Integer.toString(from);
-    this.to = Integer.toString(to);
-    setColor(color);
-  }
-
-  public Edge(final String from, final String to, final EdgeColor color) {
-    this.from = from;
-    this.to = to;
-    setColor(color);
-  }
-
-  public Edge(final int from, final int to, final EdgeColor color, final int width) {
-    this.from = Integer.toString(from);
-    this.to = Integer.toString(to);
-    setColor(color);
-    setWidth(width);
-  }
-
-  public Edge(final String from, final String to, final EdgeColor color, final int width) {
-    this.from = from;
-    this.to = to;
-    setColor(color);
-    setWidth(width);
   }
 
   public String getId() {

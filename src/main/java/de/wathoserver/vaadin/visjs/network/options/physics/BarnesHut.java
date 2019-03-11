@@ -1,63 +1,137 @@
 package de.wathoserver.vaadin.visjs.network.options.physics;
 
-/**
- * Created by roshans on 10/29/14. Updated by Martin Prause 4.8.2017
- */
+import javax.annotation.Nonnull;
+
 public class BarnesHut {
 
-  int gravitationalConstant = -2000;
-  int springLength = 95;
-  float centralGravity = 0.1f;
-  float springConstant = 0.04f;
-  float damping = 0.09f;
-  float avoidOverlap = 0.0f;
+  Integer gravitationalConstant;
+  Integer springLength;
+  Double centralGravity;
+  Double springConstant;
+  Double damping;
+  Double avoidOverlap;
 
-  public int getGravitationalConstant() {
+  private BarnesHut(Builder builder) {
+    this.gravitationalConstant = builder.gravitationalConstant;
+    this.springLength = builder.springLength;
+    this.centralGravity = builder.centralGravity;
+    this.springConstant = builder.springConstant;
+    this.damping = builder.damping;
+    this.avoidOverlap = builder.avoidOverlap;
+  }
+
+  public BarnesHut() {}
+
+  public Integer getGravitationalConstant() {
     return gravitationalConstant;
   }
 
-  public void setGravitationalConstant(int gravitationalConstant) {
+  public void setGravitationalConstant(Integer gravitationalConstant) {
     this.gravitationalConstant = gravitationalConstant;
   }
 
-  public int getSpringLength() {
+  public Integer getSpringLength() {
     return springLength;
   }
 
-  public void setSpringLength(int springLength) {
+  public void setSpringLength(Integer springLength) {
     this.springLength = springLength;
   }
 
-  public float getCentralGravity() {
+  public Double getCentralGravity() {
     return centralGravity;
   }
 
-  public void setCentralGravity(float centralGravity) {
+  public void setCentralGravity(Double centralGravity) {
     this.centralGravity = centralGravity;
   }
 
-  public float getSpringConstant() {
+  public Double getSpringConstant() {
     return springConstant;
   }
 
-  public void setSpringConstant(float springConstant) {
+  public void setSpringConstant(Double springConstant) {
     this.springConstant = springConstant;
   }
 
-  public float getDamping() {
+  public Double getDamping() {
     return damping;
   }
 
-  public void setDamping(float damping) {
+  public void setDamping(Double damping) {
     this.damping = damping;
   }
 
-  public float getAvoidOverlap() {
+  public Double getAvoidOverlap() {
     return avoidOverlap;
   }
 
-  public void setAvoidOverlap(float avoidOverlap) {
+  public void setAvoidOverlap(Double avoidOverlap) {
     this.avoidOverlap = avoidOverlap;
+  }
+
+  /**
+   * Creates builder to build {@link BarnesHut}.
+   *
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Builder to build {@link BarnesHut}.
+   */
+  public static final class Builder {
+    private Integer gravitationalConstant;
+    private Integer springLength;
+    private Double centralGravity;
+    private Double springConstant;
+    private Double damping;
+    private Double avoidOverlap;
+
+    private Builder() {}
+
+    @Nonnull
+    public Builder withGravitationalConstant(Integer gravitationalConstant) {
+      this.gravitationalConstant = gravitationalConstant;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withSpringLength(Integer springLength) {
+      this.springLength = springLength;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withCentralGravity(Double centralGravity) {
+      this.centralGravity = centralGravity;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withSpringConstant(Double springConstant) {
+      this.springConstant = springConstant;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withDamping(Double damping) {
+      this.damping = damping;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withAvoidOverlap(Double avoidOverlap) {
+      this.avoidOverlap = avoidOverlap;
+      return this;
+    }
+
+    @Nonnull
+    public BarnesHut build() {
+      return new BarnesHut(this);
+    }
   }
 
 }

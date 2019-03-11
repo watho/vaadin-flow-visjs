@@ -1,54 +1,123 @@
 package de.wathoserver.vaadin.visjs.network.options.physics;
 
-/**
- * Created by roshans on 10/29/14.
- */
+import javax.annotation.Nonnull;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(builder = Repulsion.Builder.class)
 public class Repulsion {
 
-  int springLength = 50;
-  int nodeDistance = 100;
+  Integer springLength;
+  Integer nodeDistance;
 
-  float centralGravity = 0.1f;
-  float springConstant = 0.05f;
-  float damping = 0.09f;
+  Double centralGravity;
+  Double springConstant;
+  Double damping;
 
-  public int getSpringLength() {
+  private Repulsion(Builder builder) {
+    this.springLength = builder.springLength;
+    this.nodeDistance = builder.nodeDistance;
+    this.centralGravity = builder.centralGravity;
+    this.springConstant = builder.springConstant;
+    this.damping = builder.damping;
+  }
+
+  public Repulsion() {}
+
+  public Integer getSpringLength() {
     return springLength;
   }
 
-  public void setSpringLength(int springLength) {
+  public void setSpringLength(Integer springLength) {
     this.springLength = springLength;
   }
 
-  public int getNodeDistance() {
+  public Integer getNodeDistance() {
     return nodeDistance;
   }
 
-  public void setNodeDistance(int nodeDistance) {
+  public void setNodeDistance(Integer nodeDistance) {
     this.nodeDistance = nodeDistance;
   }
 
-  public float getCentralGravity() {
+  public Double getCentralGravity() {
     return centralGravity;
   }
 
-  public void setCentralGravity(float centralGravity) {
+  public void setCentralGravity(Double centralGravity) {
     this.centralGravity = centralGravity;
   }
 
-  public float getSpringConstant() {
+  public Double getSpringConstant() {
     return springConstant;
   }
 
-  public void setSpringConstant(float springConstant) {
+  public void setSpringConstant(Double springConstant) {
     this.springConstant = springConstant;
   }
 
-  public float getDamping() {
+  public Double getDamping() {
     return damping;
   }
 
-  public void setDamping(float damping) {
+  public void setDamping(Double damping) {
     this.damping = damping;
+  }
+
+  /**
+   * Creates builder to build {@link Repulsion}.
+   * 
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Builder to build {@link Repulsion}.
+   */
+  public static final class Builder {
+    private Integer springLength;
+    private Integer nodeDistance;
+    private Double centralGravity;
+    private Double springConstant;
+    private Double damping;
+
+    private Builder() {}
+
+    @Nonnull
+    public Builder withSpringLength(Integer springLength) {
+      this.springLength = springLength;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withNodeDistance(Integer nodeDistance) {
+      this.nodeDistance = nodeDistance;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withCentralGravity(Double centralGravity) {
+      this.centralGravity = centralGravity;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withSpringConstant(Double springConstant) {
+      this.springConstant = springConstant;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withDamping(Double damping) {
+      this.damping = damping;
+      return this;
+    }
+
+    @Nonnull
+    public Repulsion build() {
+      return new Repulsion(this);
+    }
   }
 }
