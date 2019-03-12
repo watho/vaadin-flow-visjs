@@ -1,37 +1,76 @@
 package de.wathoserver.vaadin.visjs.network.options.nodes;
 
+import javax.annotation.Nonnull;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
- * Created by Martin Prause 9.8.2017
+ * Width constraints for nodes.
+ *
+ * @author watho
+ *
  */
-
+@JsonDeserialize(builder = WidthConstraint.Builder.class)
 public class WidthConstraint {
-  private int minimum;
-  private int maximum;
+  private Integer minimum;
+  private Integer maximum;
 
-  public WidthConstraint() {
-
+  private WidthConstraint(Builder builder) {
+    this.minimum = builder.minimum;
+    this.maximum = builder.maximum;
   }
 
-  public WidthConstraint(int minimum, int maximum) {
-    this.minimum = minimum;
-    this.maximum = maximum;
+  public WidthConstraint() {}
 
-  }
-
-  public int getMinimum() {
+  public Integer getMinimum() {
     return minimum;
   }
 
-  public void setMinimum(int minimum) {
+  public void setMinimum(Integer minimum) {
     this.minimum = minimum;
   }
 
-  public int getMaximum() {
+  public Integer getMaximum() {
     return maximum;
   }
 
-  public void setMaximum(int maximum) {
+  public void setMaximum(Integer maximum) {
     this.maximum = maximum;
   }
 
+  /**
+   * Creates builder to build {@link WidthConstraint}.
+   *
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Builder to build {@link WidthConstraint}.
+   */
+  public static final class Builder {
+    private Integer minimum;
+    private Integer maximum;
+
+    private Builder() {}
+
+    @Nonnull
+    public Builder withMinimum(Integer minimum) {
+      this.minimum = minimum;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withMaximum(Integer maximum) {
+      this.maximum = maximum;
+      return this;
+    }
+
+    @Nonnull
+    public WidthConstraint build() {
+      return new WidthConstraint(this);
+    }
+  }
 }

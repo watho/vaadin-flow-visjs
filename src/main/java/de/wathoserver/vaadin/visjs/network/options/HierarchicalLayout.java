@@ -1,103 +1,198 @@
 package de.wathoserver.vaadin.visjs.network.options;
 
-/**
- * Created by roshans on 11/4/14.
- * Added new options treeSpacing, blockshifting, edgeMinimization, parentCentralization by Martin Prause 5.8.2017
- */
+import javax.annotation.Nonnull;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(builder = HierarchicalLayout.Builder.class)
 public class HierarchicalLayout {
 
-    private boolean enabled = true;
-    private int levelSeparation = 100;
-    private int nodeSpacing = 100;
-    private Direction direction = Direction.UD;
-    private LayoutStyle layout = LayoutStyle.hubsize;
-    private int treeSpacing=200;
-    private boolean blockShifting=true;
-    private boolean edgeMinimization=true;
-    private boolean  parentCentralization=true;
-      
-    
-    public int getTreeSpacing() {
-		return treeSpacing;
-	}
+  private Boolean enabled;
+  private Integer levelSeparation;
+  private Integer nodeSpacing;
+  private Direction direction;
+  private LayoutStyle layout;
+  private Integer treeSpacing;
+  private Boolean blockShifting;
+  private Boolean edgeMinimization;
+  private Boolean parentCentralization;
 
-	public void setTreeSpacing(int treeSpacing) {
-		this.treeSpacing = treeSpacing;
-	}
+  private HierarchicalLayout(Builder builder) {
+    this.enabled = builder.enabled;
+    this.levelSeparation = builder.levelSeparation;
+    this.nodeSpacing = builder.nodeSpacing;
+    this.direction = builder.direction;
+    this.layout = builder.layout;
+    this.treeSpacing = builder.treeSpacing;
+    this.blockShifting = builder.blockShifting;
+    this.edgeMinimization = builder.edgeMinimization;
+    this.parentCentralization = builder.parentCentralization;
+  }
 
-	public boolean isBlockShifting() {
-		return blockShifting;
-	}
+  public HierarchicalLayout() {}
 
-	public void setBlockShifting(boolean blockShifting) {
-		this.blockShifting = blockShifting;
-	}
+  public Integer getTreeSpacing() {
+    return treeSpacing;
+  }
 
-	public boolean isEdgeMinimization() {
-		return edgeMinimization;
-	}
+  public void setTreeSpacing(Integer treeSpacing) {
+    this.treeSpacing = treeSpacing;
+  }
 
-	public void setEdgeMinimization(boolean edgeMinimization) {
-		this.edgeMinimization = edgeMinimization;
-	}
+  public Boolean isBlockShifting() {
+    return blockShifting;
+  }
 
-	public boolean isParentCentralization() {
-		return parentCentralization;
-	}
+  public void setBlockShifting(Boolean blockShifting) {
+    this.blockShifting = blockShifting;
+  }
 
-	public void setParentCentralization(boolean parentCentralization) {
-		this.parentCentralization = parentCentralization;
-	}
+  public Boolean isEdgeMinimization() {
+    return edgeMinimization;
+  }
 
-	public boolean isEnabled() {
-        return enabled;
+  public void setEdgeMinimization(Boolean edgeMinimization) {
+    this.edgeMinimization = edgeMinimization;
+  }
+
+  public Boolean isParentCentralization() {
+    return parentCentralization;
+  }
+
+  public void setParentCentralization(Boolean parentCentralization) {
+    this.parentCentralization = parentCentralization;
+  }
+
+  public Boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(Boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public Integer getLevelSeparation() {
+    return levelSeparation;
+  }
+
+  public void setLevelSeparation(Integer levelSeparation) {
+    this.levelSeparation = levelSeparation;
+  }
+
+  public Integer getNodeSpacing() {
+    return nodeSpacing;
+  }
+
+  public void setNodeSpacing(Integer nodeSpacing) {
+    this.nodeSpacing = nodeSpacing;
+  }
+
+  public Direction getDirection() {
+    return direction;
+  }
+
+  public void setDirection(Direction direction) {
+    this.direction = direction;
+  }
+
+  public LayoutStyle getLayout() {
+    return layout;
+  }
+
+  public void setLayout(LayoutStyle layout) {
+    this.layout = layout;
+  }
+
+  public static enum Direction {
+    UD, DU, LR, RL;
+  }
+
+  public static enum LayoutStyle {
+    hubsize, direction;
+  }
+
+  /**
+   * Creates builder to build {@link HierarchicalLayout}.
+   *
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Builder to build {@link HierarchicalLayout}.
+   */
+  public static final class Builder {
+    private Boolean enabled;
+    private Integer levelSeparation;
+    private Integer nodeSpacing;
+    private Direction direction;
+    private LayoutStyle layout;
+    private Integer treeSpacing;
+    private Boolean blockShifting;
+    private Boolean edgeMinimization;
+    private Boolean parentCentralization;
+
+    private Builder() {}
+
+    @Nonnull
+    public Builder withEnabled(Boolean enabled) {
+      this.enabled = enabled;
+      return this;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    @Nonnull
+    public Builder withLevelSeparation(Integer levelSeparation) {
+      this.levelSeparation = levelSeparation;
+      return this;
     }
 
-    public int getLevelSeparation() {
-        return levelSeparation;
+    @Nonnull
+    public Builder withNodeSpacing(Integer nodeSpacing) {
+      this.nodeSpacing = nodeSpacing;
+      return this;
     }
 
-    public void setLevelSeparation(int levelSeparation) {
-        this.levelSeparation = levelSeparation;
+    @Nonnull
+    public Builder withDirection(Direction direction) {
+      this.direction = direction;
+      return this;
     }
 
-    public int getNodeSpacing() {
-        return nodeSpacing;
+    @Nonnull
+    public Builder withLayout(LayoutStyle layout) {
+      this.layout = layout;
+      return this;
     }
 
-    public void setNodeSpacing(int nodeSpacing) {
-        this.nodeSpacing = nodeSpacing;
+    @Nonnull
+    public Builder withTreeSpacing(Integer treeSpacing) {
+      this.treeSpacing = treeSpacing;
+      return this;
     }
 
-    public Direction getDirection() {
-        return direction;
+    @Nonnull
+    public Builder withBlockShifting(Boolean blockShifting) {
+      this.blockShifting = blockShifting;
+      return this;
     }
 
-    public void setDirection(Direction direction) {
-        this.direction = direction;
+    @Nonnull
+    public Builder withEdgeMinimization(Boolean edgeMinimization) {
+      this.edgeMinimization = edgeMinimization;
+      return this;
     }
 
-    public LayoutStyle getLayout() {
-        return layout;
+    @Nonnull
+    public Builder withParentCentralization(Boolean parentCentralization) {
+      this.parentCentralization = parentCentralization;
+      return this;
     }
 
-    public void setLayout(LayoutStyle layout) {
-        this.layout = layout;
+    @Nonnull
+    public HierarchicalLayout build() {
+      return new HierarchicalLayout(this);
     }
-
-    public static enum Direction {
-        UD,
-        DU,
-        LR,
-        RL;
-    }
-
-    public static enum  LayoutStyle{
-        hubsize,
-        direction;
-    }
+  }
 }

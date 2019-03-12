@@ -32,6 +32,18 @@ public class Edge extends Edges {
     this.to = to;
   }
 
+  public Edge(final Node from, final Node to, final String label) {
+    this.from = from.getId();
+    this.to = to.getId();
+    this.setLabel(label);
+  }
+
+  public Edge(final String from, final String to, final String label) {
+    this.from = from;
+    this.to = to;
+    this.setLabel(label);
+  }
+
   public String getId() {
     return id;
   }

@@ -1,4 +1,4 @@
-package de.wathoserver.vaadin.visjs.network.util;
+package de.wathoserver.vaadin.visjs.network;
 
 import java.util.function.Function;
 import java.util.stream.Stream;

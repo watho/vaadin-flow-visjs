@@ -317,13 +317,13 @@ public class Font {
     }
 
     @Nonnull
-    public Builder withMultiBoolean(Boolean multiBoolean) {
+    public Builder withMulti(Boolean multiBoolean) {
       this.multiBoolean = multiBoolean;
       return this;
     }
 
     @Nonnull
-    public Builder withBoldStr(String boldStr) {
+    public Builder withBold(String boldStr) {
       this.boldStr = boldStr;
       return this;
     }

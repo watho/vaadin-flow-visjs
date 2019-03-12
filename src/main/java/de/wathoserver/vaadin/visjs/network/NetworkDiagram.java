@@ -95,7 +95,6 @@ import de.wathoserver.vaadin.visjs.network.listener.StabilizingProgressListener;
 import de.wathoserver.vaadin.visjs.network.listener.StartStabilizingListener;
 import de.wathoserver.vaadin.visjs.network.listener.ZoomListener;
 import de.wathoserver.vaadin.visjs.network.options.Options;
-import de.wathoserver.vaadin.visjs.network.util.PairCollater;
 import elemental.json.JsonArray;
 import elemental.json.impl.JreJsonString;
 

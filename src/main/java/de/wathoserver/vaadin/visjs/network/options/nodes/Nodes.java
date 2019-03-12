@@ -2,6 +2,8 @@ package de.wathoserver.vaadin.visjs.network.options.nodes;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -26,10 +28,18 @@ public class Nodes {
   private NodeColor color;
   @JsonIgnore
   private String colorStr;
-  private Fixed fixed;
+  @JsonIgnore
+  private Fixed fixedObject;
+  @JsonIgnore
+  private Boolean fixedBoolean;
   private Font font;
   // group
-  private Boolean heightConstraint;
+  @JsonIgnore
+  private HeightConstraint heightConstraintObject;
+  @JsonIgnore
+  private Integer heightConstraintInteger;
+  @JsonIgnore
+  private Boolean heightConstraintBoolean;
   private Boolean hidden;
   private Icon icon;
   private String image;
@@ -38,17 +48,29 @@ public class Nodes {
   private String label;
   private Boolean labelHighlightBold;
   private Integer level;
+  @JsonIgnore
+  private Margin marginObject;
+  @JsonIgnore
+  private Integer marginInteger;
   private Integer mass;
   private Boolean physics;
   private Scaling scaling;
-  private Shadow shadow;
+  @JsonIgnore
+  private Shadow shadowObject;
+  @JsonIgnore
+  private Boolean shadowBoolean;
   private Shape shape;
   private ShapeProperties shapeProperties;
 
   private Integer size;
   private String title;
   private String value;
-  private WidthConstraint widthConstraint;
+  @JsonIgnore
+  private WidthConstraint widthConstraintObject;
+  @JsonIgnore
+  private Integer widthConstraintInteger;
+  @JsonIgnore
+  private Boolean widthConstraintBoolean;
   private Integer x;
   private Integer y;
 
@@ -58,9 +80,12 @@ public class Nodes {
     this.chosen = builder.chosen;
     this.color = builder.color;
     this.colorStr = builder.colorStr;
-    this.fixed = builder.fixed;
+    this.fixedObject = builder.fixedObject;
+    this.fixedBoolean = builder.fixedBoolean;
     this.font = builder.font;
-    this.heightConstraint = builder.heightConstraint;
+    this.heightConstraintObject = builder.heightConstraintObject;
+    this.heightConstraintInteger = builder.heightConstraintInteger;
+    this.heightConstraintBoolean = builder.heightConstraintBoolean;
     this.hidden = builder.hidden;
     this.icon = builder.icon;
     this.image = builder.image;
@@ -69,16 +94,21 @@ public class Nodes {
     this.label = builder.label;
     this.labelHighlightBold = builder.labelHighlightBold;
     this.level = builder.level;
+    this.marginObject = builder.marginObject;
+    this.marginInteger = builder.marginInteger;
     this.mass = builder.mass;
     this.physics = builder.physics;
     this.scaling = builder.scaling;
-    this.shadow = builder.shadow;
+    this.shadowBoolean = builder.shadowBoolean;
+    this.shadowObject = builder.shadowObject;
     this.shape = builder.shape;
     this.shapeProperties = builder.shapeProperties;
     this.size = builder.size;
     this.title = builder.title;
     this.value = builder.value;
-    this.widthConstraint = builder.widthConstraint;
+    this.widthConstraintObject = builder.widthConstraintObject;
+    this.widthConstraintInteger = builder.widthConstraintInteger;
+    this.widthConstraintBoolean = builder.widthConstraintBoolean;
     this.x = builder.x;
     this.y = builder.y;
   }
@@ -91,10 +121,6 @@ public class Nodes {
 
   public void setChosen(final boolean chosen) {
     this.chosen = chosen;
-  }
-
-  public WidthConstraint getWidthConstraint() {
-    return widthConstraint;
   }
 
   public Integer getLevel() {
@@ -154,6 +180,29 @@ public class Nodes {
     this.color = null;
   }
 
+  @JsonGetter
+  public Object getFixed() {
+    return ObjectUtils.firstNonNull(fixedObject, fixedBoolean);
+  }
+
+  public Boolean getFixedBoolean() {
+    return fixedBoolean;
+  }
+
+  public Fixed getFixedObject() {
+    return fixedObject;
+  }
+
+  public void setFixed(final Boolean fixed) {
+    this.fixedObject = null;
+    this.fixedBoolean = fixed;
+  }
+
+  public void setFixed(final Fixed fixed) {
+    this.fixedObject = fixed;
+    this.fixedBoolean = null;
+  }
+
   public Font getFont() {
     return font;
   }
@@ -162,12 +211,34 @@ public class Nodes {
     this.font = font;
   }
 
-  public boolean isHeightConstraint() {
-    return heightConstraint;
+  @JsonGetter
+  public Object getHeightConstraint() {
+    return ObjectUtils.firstNonNull(heightConstraintObject, heightConstraintInteger,
+        heightConstraintBoolean);
   }
 
-  public void setHeightConstraint(final boolean heightConstraint) {
-    this.heightConstraint = heightConstraint;
+  public void setHeightConstraint(HeightConstraint heightConstraintObject) {
+    this.heightConstraintObject = heightConstraintObject;
+  }
+
+  public void setHeightConstraint(Integer heightConstraintInteger) {
+    this.heightConstraintInteger = heightConstraintInteger;
+  }
+
+  public void setHeightConstraint(Boolean heightConstraintBoolean) {
+    this.heightConstraintBoolean = heightConstraintBoolean;
+  }
+
+  public HeightConstraint getHeightConstraintObject() {
+    return heightConstraintObject;
+  }
+
+  public Integer getHeightConstraintInteger() {
+    return heightConstraintInteger;
+  }
+
+  public Boolean getHeightConstraintBoolean() {
+    return heightConstraintBoolean;
   }
 
   public boolean isHidden() {
@@ -226,6 +297,29 @@ public class Nodes {
     this.labelHighlightBold = labelHighlightBold;
   }
 
+  @JsonGetter
+  public Object getMargin() {
+    return ObjectUtils.firstNonNull(marginObject, marginInteger);
+  }
+
+  public void setMargin(Integer marginInteger) {
+    this.marginInteger = marginInteger;
+    this.marginObject = null;
+  }
+
+  public void setMargin(Margin marginObject) {
+    this.marginObject = marginObject;
+    this.marginInteger = null;
+  }
+
+  public Integer getMarginInteger() {
+    return marginInteger;
+  }
+
+  public Margin getMarginObject() {
+    return marginObject;
+  }
+
   public int getMass() {
     return mass;
   }
@@ -250,12 +344,27 @@ public class Nodes {
     this.scaling = scaling;
   }
 
-  public Shadow getShadow() {
-    return shadow;
+  @JsonGetter
+  public Object getShadow() {
+    return ObjectUtils.firstNonNull(shadowObject, shadowBoolean);
+  }
+
+  public Boolean getShadowBoolean() {
+    return shadowBoolean;
+  }
+
+  public Shadow getShadowObject() {
+    return shadowObject;
   }
 
   public void setShadow(final Shadow shadow) {
-    this.shadow = shadow;
+    this.shadowObject = shadow;
+    this.shadowBoolean = null;
+  }
+
+  public void setShadow(final Boolean shadow) {
+    this.shadowBoolean = shadow;
+    this.shadowObject = null;
   }
 
   public Shape getShape() {
@@ -298,12 +407,34 @@ public class Nodes {
     this.value = value;
   }
 
-  public WidthConstraint isWidthConstraint() {
-    return widthConstraint;
+  @JsonGetter
+  public Object getWidthConstraint() {
+    return ObjectUtils.firstNonNull(widthConstraintObject, widthConstraintInteger,
+        widthConstraintBoolean);
   }
 
-  public void setWidthConstraint(final WidthConstraint widthConstraint) {
-    this.widthConstraint = widthConstraint;
+  public void setWidthConstraint(WidthConstraint widthConstraintObject) {
+    this.widthConstraintObject = widthConstraintObject;
+  }
+
+  public void setWidthConstraint(Integer widthConstraintInteger) {
+    this.widthConstraintInteger = widthConstraintInteger;
+  }
+
+  public void setWidthConstraint(Boolean widthConstraintBoolean) {
+    this.widthConstraintBoolean = widthConstraintBoolean;
+  }
+
+  public WidthConstraint getWidthConstraintObject() {
+    return widthConstraintObject;
+  }
+
+  public Integer getWidthConstraintInteger() {
+    return widthConstraintInteger;
+  }
+
+  public Boolean getWidthConstraintBoolean() {
+    return widthConstraintBoolean;
   }
 
   public Integer getX() {
@@ -320,14 +451,6 @@ public class Nodes {
 
   public void setY(final Integer y) {
     this.y = y;
-  }
-
-  public Fixed getFixed() {
-    return fixed;
-  }
-
-  public void setFixed(final Fixed fixed) {
-    this.fixed = fixed;
   }
 
   /**
@@ -348,9 +471,12 @@ public class Nodes {
     private Boolean chosen;
     private NodeColor color;
     private String colorStr;
-    private Fixed fixed;
+    private Fixed fixedObject;
+    private Boolean fixedBoolean;
     private Font font;
-    private Boolean heightConstraint;
+    private HeightConstraint heightConstraintObject;
+    private Integer heightConstraintInteger;
+    private Boolean heightConstraintBoolean;
     private Boolean hidden;
     private Icon icon;
     private String image;
@@ -359,16 +485,21 @@ public class Nodes {
     private String label;
     private Boolean labelHighlightBold;
     private Integer level;
+    private Margin marginObject;
+    private Integer marginInteger;
     private Integer mass;
     private Boolean physics;
     private Scaling scaling;
-    private Shadow shadow;
+    private Shadow shadowObject;
+    private Boolean shadowBoolean;
     private Shape shape;
     private ShapeProperties shapeProperties;
     private Integer size;
     private String title;
     private String value;
-    private WidthConstraint widthConstraint;
+    private WidthConstraint widthConstraintObject;
+    private Integer widthConstraintInteger;
+    private Boolean widthConstraintBoolean;
     private Integer x;
     private Integer y;
 
@@ -406,7 +537,15 @@ public class Nodes {
 
     @Nonnull
     public Builder withFixed(Fixed fixed) {
-      this.fixed = fixed;
+      this.fixedObject = fixed;
+      this.fixedBoolean = null;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withFixed(Boolean fixed) {
+      this.fixedBoolean = fixed;
+      this.fixedObject = null;
       return this;
     }
 
@@ -429,8 +568,26 @@ public class Nodes {
     }
 
     @Nonnull
+    public Builder withHeightConstraint(HeightConstraint heightConstraint) {
+      this.heightConstraintObject = heightConstraint;
+      this.heightConstraintInteger = null;
+      this.heightConstraintBoolean = null;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withHeightConstraint(Integer heightConstraint) {
+      this.heightConstraintObject = null;
+      this.heightConstraintInteger = heightConstraint;
+      this.heightConstraintBoolean = null;
+      return this;
+    }
+
+    @Nonnull
     public Builder withHeightConstraint(Boolean heightConstraint) {
-      this.heightConstraint = heightConstraint;
+      this.heightConstraintObject = null;
+      this.heightConstraintInteger = null;
+      this.heightConstraintBoolean = heightConstraint;
       return this;
     }
 
@@ -471,6 +628,20 @@ public class Nodes {
     }
 
     @Nonnull
+    public Builder withMargin(Margin margin) {
+      this.marginObject = margin;
+      this.marginInteger = null;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withMargin(Integer margin) {
+      this.marginObject = null;
+      this.marginInteger = margin;
+      return this;
+    }
+
+    @Nonnull
     public Builder withMass(Integer mass) {
       this.mass = mass;
       return this;
@@ -490,7 +661,15 @@ public class Nodes {
 
     @Nonnull
     public Builder withShadow(Shadow shadow) {
-      this.shadow = shadow;
+      this.shadowObject = shadow;
+      this.shadowBoolean = null;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withShadow(Boolean shadow) {
+      this.shadowObject = null;
+      this.shadowBoolean = shadow;
       return this;
     }
 
@@ -526,7 +705,25 @@ public class Nodes {
 
     @Nonnull
     public Builder withWidthConstraint(WidthConstraint widthConstraint) {
-      this.widthConstraint = widthConstraint;
+      this.widthConstraintObject = widthConstraint;
+      this.widthConstraintInteger = null;
+      this.widthConstraintBoolean = null;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withWidthConstraint(Integer widthConstraint) {
+      this.widthConstraintObject = null;
+      this.widthConstraintInteger = widthConstraint;
+      this.widthConstraintBoolean = null;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withWidthConstraint(Boolean widthConstraint) {
+      this.widthConstraintObject = null;
+      this.widthConstraintInteger = null;
+      this.widthConstraintBoolean = widthConstraint;
       return this;
     }
 

@@ -1,18 +1,12 @@
 package de.wathoserver.vaadin.visjs.network.options.edges;
 
-/**
- * Created by Martin Prause 5.8.2017
- */
-
 public class Arrows {
 
   private ArrowHead to;
   private ArrowHead middle;
   private ArrowHead from;
 
-  public Arrows() {
-
-  }
+  public Arrows() {}
 
   public Arrows(final ArrowHead to) {
     this.to = to;
@@ -52,9 +46,4 @@ public class Arrows {
   public void setFrom(final ArrowHead from) {
     this.from = from;
   }
-
-  public static enum Type {
-    arrow, bar, circle;
-  }
-
 }
