@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(builder = ArrowHead.Builder.class)
 public class ArrowHead {
   private Boolean enabled;
-  private Integer scaleFactor;
+  private Double scaleFactor;
   private Type type;
 
   private ArrowHead(Builder builder) {
@@ -26,11 +26,11 @@ public class ArrowHead {
     this.enabled = enabled;
   }
 
-  public Integer getScaleFactor() {
+  public Double getScaleFactor() {
     return scaleFactor;
   }
 
-  public void setScaleFactor(final Integer scaleFactor) {
+  public void setScaleFactor(final Double scaleFactor) {
     this.scaleFactor = scaleFactor;
   }
 
@@ -60,7 +60,7 @@ public class ArrowHead {
    */
   public static final class Builder {
     private Boolean enabled;
-    private Integer scaleFactor;
+    private Double scaleFactor;
     private Type type;
 
     private Builder() {}
@@ -72,7 +72,7 @@ public class ArrowHead {
     }
 
     @Nonnull
-    public Builder withScaleFactor(Integer scaleFactor) {
+    public Builder withScaleFactor(Double scaleFactor) {
       this.scaleFactor = scaleFactor;
       return this;
     }
