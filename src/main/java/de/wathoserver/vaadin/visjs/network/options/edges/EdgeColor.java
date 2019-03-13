@@ -2,6 +2,10 @@ package de.wathoserver.vaadin.visjs.network.options.edges;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.ObjectUtils;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(builder = EdgeColor.Builder.class)
@@ -10,24 +14,28 @@ public class EdgeColor {
   private String color;
   private String highlight;
   private String hover;
-  private String inherit;
-  private Integer opacity;
+  @JsonIgnore
+  private Boolean inheritBoolean;
+  @JsonIgnore
+  private Inherit inheritEnum;
+  private Double opacity;
 
   private EdgeColor(Builder builder) {
     this.color = builder.color;
     this.highlight = builder.highlight;
     this.hover = builder.hover;
-    this.inherit = builder.inherit;
+    this.inheritEnum = builder.inheritEnum;
+    this.inheritBoolean = builder.inheritBoolean;
     this.opacity = builder.opacity;
   }
 
   public EdgeColor() {}
 
-  public Integer getOpacity() {
+  public Double getOpacity() {
     return opacity;
   }
 
-  public void setOpacity(final Integer opacity) {
+  public void setOpacity(final Double opacity) {
     this.opacity = opacity;
   }
 
@@ -55,12 +63,23 @@ public class EdgeColor {
     this.color = color;
   }
 
-  public String getInherit() {
-    return inherit;
+  @JsonGetter
+  public Object getInherit() {
+    return ObjectUtils.firstNonNull(inheritBoolean, inheritEnum);
   }
 
-  public void setInherit(String inherit) {
-    this.inherit = inherit;
+  public void setInherit(Inherit inherit) {
+    this.inheritEnum = inherit;
+    this.inheritBoolean = null;
+  }
+
+  public void setInherit(Boolean inherit) {
+    this.inheritBoolean = inherit;
+    this.inheritEnum = null;
+  }
+
+  public enum Inherit {
+    from, to, both
   }
 
   /**
@@ -79,8 +98,9 @@ public class EdgeColor {
     private String color;
     private String highlight;
     private String hover;
-    private String inherit;
-    private Integer opacity;
+    private Inherit inheritEnum;
+    private Boolean inheritBoolean;
+    private Double opacity;
 
     private Builder() {}
 
@@ -103,13 +123,19 @@ public class EdgeColor {
     }
 
     @Nonnull
-    public Builder withInherit(String inherit) {
-      this.inherit = inherit;
+    public Builder withInherit(Inherit inherit) {
+      this.inheritEnum = inherit;
       return this;
     }
 
     @Nonnull
-    public Builder withOpacity(Integer opacity) {
+    public Builder withInherit(Boolean inherit) {
+      this.inheritBoolean = inherit;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withOpacity(Double opacity) {
       this.opacity = opacity;
       return this;
     }

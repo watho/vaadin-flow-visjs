@@ -1,26 +1,34 @@
-window.Vaadin.Flow.networkDiagramConnector = {
-	initLazy : function(graph, initialNodes, initialEdges, options) {
-
+window.Vaadin.Flow.networkDiagramConnector = {	
+	initLazy : function(graph, initialNodes, initialEdges, options, predefinedNodesName, predefinedEdgesName) {		
 		// Check whether the connector was already initialized for the Iron list
 		if (graph.$connector) {
 			return;
 		}
-		console.log('init networkDiagramConnector');
+		console.log('init networkDiagramConnector', predefinedNodesName, predefinedEdgesName);
 
 		graph.$connector = {};
-
-		console.log(initialNodes);
-		graph.nodes = new vis.DataSet(JSON.parse(initialNodes));
+		
+		graph.nodes = new vis.DataSet(JSON.parse(initialNodes));		
+		if (typeof predefinedNodesName === 'string' && window.hasOwnProperty(predefinedNodesName) && window[predefinedNodesName].length > 0) {
+		    // the array is defined and has at least one element
+			console.log('found ' + window[predefinedNodesName].length + ' predefined nodes')
+			graph.nodes.add(window[predefinedNodesName]);
+		}		
 		graph.edges = new vis.DataSet(JSON.parse(initialEdges));
+		if (typeof predefinedEdgesName === 'string' && window.hasOwnProperty(predefinedEdgesName) && window[predefinedEdgesName].length > 0) {
+		    // the array is defined and has at least one element
+			console.log('found ' + window[predefinedEdgesName].length + ' predefined edges')
+			graph.edges.add(window[predefinedEdgesName]);
+		}
 		
 
-		var self = this;
-		var customNodeifAdded = false;
-		var customNodeID;
-		var customNodeLabel;
-		var customEdgeifAdded = false;
-		var customEdgeID;
-		var customEdgeLabel;
+//		var self = this;
+//		var customNodeifAdded = false;
+//		var customNodeID;
+//		var customNodeLabel;
+//		var customEdgeifAdded = false;
+//		var customEdgeID;
+//		var customEdgeLabel;
 
 		graph.options = JSON.parse(options);
 //		graph.options.manipulation.addNode = function(nodeData, callback) {

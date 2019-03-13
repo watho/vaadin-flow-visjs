@@ -112,6 +112,8 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
   Logger log = LoggerFactory.getLogger(NetworkDiagram.class);
 
   private final Options options;
+  private String predefinedNodesVariableName;
+  private String predefinedEdgesVariableName;
   private final ObjectMapper mapper = new ObjectMapper();
 
   // Holds all eventtypes already registered client side.
@@ -164,9 +166,10 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     getUI()
         .orElseThrow(() -> new IllegalStateException(
             "Connector can only be initialized for an attached NetworkDiagram"))
-        .getPage()
-        .executeJavaScript("window.Vaadin.Flow.networkDiagramConnector.initLazy($0, $1, $2, $3)",
-            getElement(), nodesArray, edgesArray, optionsToJson(options));
+        .getPage().executeJavaScript(
+            "window.Vaadin.Flow.networkDiagramConnector.initLazy($0, $1, $2, $3, $4, $5)",
+            getElement(), nodesArray, edgesArray, optionsToJson(options),
+            predefinedNodesVariableName, predefinedEdgesVariableName);
     // TODO reinitialise listener
     // getEventBus().hasListener(eventType)
   }
@@ -350,6 +353,34 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     removeAllEdges();
     addNodes(nodes);
     addEdges(edges);
+  }
+
+  /**
+   * Name of the variable which holds an array with edges. Useful when edges are loaded through
+   * external javascript-file.
+   *
+   * @return
+   */
+  public String getPredefinedEdgesVariableName() {
+    return predefinedEdgesVariableName;
+  }
+
+  public void setPredefinedEdgesVariableName(String predefinedEdgesVariableName) {
+    this.predefinedEdgesVariableName = predefinedEdgesVariableName;
+  }
+
+  /**
+   * Name of the variable which holds an array with nodes. Useful when nodes are loaded through
+   * external javascript-file.
+   *
+   * @return
+   */
+  public String getPredefinedNodesVariableName() {
+    return predefinedNodesVariableName;
+  }
+
+  public void setPredefinedNodesVariableName(String predefinedNodesVariableName) {
+    this.predefinedNodesVariableName = predefinedNodesVariableName;
   }
 
   // ==== Diagram-Methods ====

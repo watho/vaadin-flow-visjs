@@ -58,7 +58,7 @@ public class Edges {
   private Boolean smoothBoolean;
   private String title;
   private Integer value;
-  private Integer width;
+  private Double width;
 
   // TODO test this special case
   private Integer widthConstraint;
@@ -340,11 +340,11 @@ public class Edges {
     this.title = title;
   }
 
-  public Integer getWidth() {
+  public Double getWidth() {
     return width;
   }
 
-  public void setWidth(Integer width) {
+  public void setWidth(Double width) {
     this.width = width;
   }
 
@@ -402,7 +402,7 @@ public class Edges {
     private Boolean smoothBoolean;
     private String title;
     private Integer value;
-    private Integer width;
+    private Double width;
     private Integer widthConstraint;
     private Integer widthConstraintMaximum;
 
@@ -559,7 +559,7 @@ public class Edges {
     }
 
     @Nonnull
-    public Builder withWidth(Integer width) {
+    public Builder withWidth(Double width) {
       this.width = width;
       return this;
     }

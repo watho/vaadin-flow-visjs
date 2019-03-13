@@ -530,7 +530,7 @@ public class Nodes {
     }
 
     @Nonnull
-    public Builder withColorStr(String colorStr) {
+    public Builder withColor(String colorStr) {
       this.colorStr = colorStr;
       return this;
     }
