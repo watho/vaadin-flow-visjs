@@ -10,19 +10,19 @@ public class HierarchicalLayout {
   private Boolean enabled;
   private Integer levelSeparation;
   private Integer nodeSpacing;
-  private Direction direction;
-  private LayoutStyle layout;
   private Integer treeSpacing;
   private Boolean blockShifting;
   private Boolean edgeMinimization;
   private Boolean parentCentralization;
+  private Direction direction;
+  private SortMethod sortMethod;
 
   private HierarchicalLayout(Builder builder) {
     this.enabled = builder.enabled;
     this.levelSeparation = builder.levelSeparation;
     this.nodeSpacing = builder.nodeSpacing;
     this.direction = builder.direction;
-    this.layout = builder.layout;
+    this.sortMethod = builder.sortMethod;
     this.treeSpacing = builder.treeSpacing;
     this.blockShifting = builder.blockShifting;
     this.edgeMinimization = builder.edgeMinimization;
@@ -95,20 +95,20 @@ public class HierarchicalLayout {
     this.direction = direction;
   }
 
-  public LayoutStyle getLayout() {
-    return layout;
+  public SortMethod getSortMethod() {
+    return sortMethod;
   }
 
-  public void setLayout(LayoutStyle layout) {
-    this.layout = layout;
+  public void setSortMethod(SortMethod sortMethod) {
+    this.sortMethod = sortMethod;
   }
 
   public static enum Direction {
     UD, DU, LR, RL;
   }
 
-  public static enum LayoutStyle {
-    hubsize, direction;
+  public static enum SortMethod {
+    hubsize, directed;
   }
 
   /**
@@ -128,7 +128,7 @@ public class HierarchicalLayout {
     private Integer levelSeparation;
     private Integer nodeSpacing;
     private Direction direction;
-    private LayoutStyle layout;
+    private SortMethod sortMethod;
     private Integer treeSpacing;
     private Boolean blockShifting;
     private Boolean edgeMinimization;
@@ -161,8 +161,8 @@ public class HierarchicalLayout {
     }
 
     @Nonnull
-    public Builder withLayout(LayoutStyle layout) {
-      this.layout = layout;
+    public Builder withSortMethod(SortMethod sortMethod) {
+      this.sortMethod = sortMethod;
       return this;
     }
 
