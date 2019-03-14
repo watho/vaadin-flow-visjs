@@ -1,66 +1,77 @@
-window.Vaadin.Flow.networkDiagramConnector = {	
-	initLazy : function(graph, initialNodes, initialEdges, options, predefinedNodesName, predefinedEdgesName) {		
+window.Vaadin.Flow.networkDiagramConnector = {
+	initLazy : function(graph, initialNodes, initialEdges, options,
+			predefinedNodesName, predefinedEdgesName) {
 		// Check whether the connector was already initialized for the Iron list
 		if (graph.$connector) {
 			return;
 		}
-		console.log('init networkDiagramConnector', predefinedNodesName, predefinedEdgesName);
+		console.log('init networkDiagramConnector', predefinedNodesName,
+				predefinedEdgesName);
 
 		graph.$connector = {};
-		
-		graph.nodes = new vis.DataSet(JSON.parse(initialNodes));		
-		if (typeof predefinedNodesName === 'string' && window.hasOwnProperty(predefinedNodesName) && window[predefinedNodesName].length > 0) {
-		    // the array is defined and has at least one element
-			console.log('found ' + window[predefinedNodesName].length + ' predefined nodes')
+		graph.predefinedNodesName = predefinedNodesName;
+		graph.predefinedEdgesName = predefinedEdgesName;
+
+		graph.nodes = new vis.DataSet(JSON.parse(initialNodes));
+		if (typeof predefinedNodesName === 'string'
+				&& window.hasOwnProperty(predefinedNodesName)
+				&& window[predefinedNodesName].length > 0) {
+			// the array is defined and has at least one element
+			console.log('found ' + window[predefinedNodesName].length
+					+ ' predefined nodes')
 			graph.nodes.add(window[predefinedNodesName]);
-		}		
+		}
 		graph.edges = new vis.DataSet(JSON.parse(initialEdges));
-		if (typeof predefinedEdgesName === 'string' && window.hasOwnProperty(predefinedEdgesName) && window[predefinedEdgesName].length > 0) {
-		    // the array is defined and has at least one element
-			console.log('found ' + window[predefinedEdgesName].length + ' predefined edges')
+		if (typeof predefinedEdgesName === 'string'
+				&& window.hasOwnProperty(predefinedEdgesName)
+				&& window[predefinedEdgesName].length > 0) {
+			// the array is defined and has at least one element
+			console.log('found ' + window[predefinedEdgesName].length
+					+ ' predefined edges')
 			graph.edges.add(window[predefinedEdgesName]);
 		}
-		
 
-//		var self = this;
-//		var customNodeifAdded = false;
-//		var customNodeID;
-//		var customNodeLabel;
-//		var customEdgeifAdded = false;
-//		var customEdgeID;
-//		var customEdgeLabel;
+		// var self = this;
+		// var customNodeifAdded = false;
+		// var customNodeID;
+		// var customNodeLabel;
+		// var customEdgeifAdded = false;
+		// var customEdgeID;
+		// var customEdgeLabel;
 
 		graph.options = JSON.parse(options);
-//		graph.options.manipulation.addNode = function(nodeData, callback) {
-//			if (customNodeifAdded == true) {
-//				nodeData.label = customNodeLabel;
-//				nodeData.id = customNodeID;
-//			}
-//			self.onManipulationNodeAdded(nodeData);
-//			callback(nodeData);
-//		};
-//		graph.options.manipulation.addEdge = function(edgeData, callback) {
-//			if (customEdgeifAdded == true) {
-//				edgeData.label = customEdgeLabel;
-//				edgeData.id = customEdgeID;
-//			}
-//			self.onManipulationEdgeAdded(edgeData);
-//			callback(edgeData);
-//		};
-//		graph.options.manipulation.deleteNode = function(nodeData, callback) {
-//			self.onManipulationNodeDeleted(nodeData);
-//			callback(nodeData);
-//		};
-//		graph.options.manipulation.deleteEdge = function(edgeData, callback) {
-//			self.onManipulationEdgeDeleted(edgeData);
-//			callback(edgeData);
-//		};
-//		graph.options.manipulation.editEdge = function(edgeData, callback) {
-//			self.onManipulationEdgeEdited(edgeData);
-//			callback(edgeData);
-//		};
+		// graph.options.manipulation.addNode = function(nodeData, callback) {
+		// if (customNodeifAdded == true) {
+		// nodeData.label = customNodeLabel;
+		// nodeData.id = customNodeID;
+		// }
+		// self.onManipulationNodeAdded(nodeData);
+		// callback(nodeData);
+		// };
+		// graph.options.manipulation.addEdge = function(edgeData, callback) {
+		// if (customEdgeifAdded == true) {
+		// edgeData.label = customEdgeLabel;
+		// edgeData.id = customEdgeID;
+		// }
+		// self.onManipulationEdgeAdded(edgeData);
+		// callback(edgeData);
+		// };
+		// graph.options.manipulation.deleteNode = function(nodeData, callback)
+		// {
+		// self.onManipulationNodeDeleted(nodeData);
+		// callback(nodeData);
+		// };
+		// graph.options.manipulation.deleteEdge = function(edgeData, callback)
+		// {
+		// self.onManipulationEdgeDeleted(edgeData);
+		// callback(edgeData);
+		// };
+		// graph.options.manipulation.editEdge = function(edgeData, callback) {
+		// self.onManipulationEdgeEdited(edgeData);
+		// callback(edgeData);
+		// };
 		console.log("networkdiagram options: " + JSON.stringify(graph.options));
-		console.log("nodes: " + JSON.stringify(graph.nodes));
+		// console.log("nodes: " + JSON.stringify(graph.nodes));
 		graph.$connector.diagram = new vis.Network(graph, {
 			nodes : graph.nodes,
 			edges : graph.edges
@@ -192,5 +203,28 @@ window.Vaadin.Flow.networkDiagramConnector = {
 			graph.options = JSON.parse(options);
 			graph.$connector.diagram.setOptions(graph.options);
 		};
+
+		graph.$connector.updatePredefined = function() {
+			const predefinedNodesName = graph.predefinedNodesName;
+			const predefinedEdgesName = graph.predefinedEdgesName;
+			if (typeof predefinedNodesName === 'string'
+					&& window.hasOwnProperty(predefinedNodesName)
+					&& window[predefinedNodesName].length > 0) {
+				// the array is defined and has at least one element
+				console.log('found ' + window[predefinedNodesName].length
+						+ ' predefined nodes')
+				graph.nodes.clear();
+				graph.nodes.add(window[predefinedNodesName]);
+			}
+			if (typeof predefinedEdgesName === 'string'
+					&& window.hasOwnProperty(predefinedEdgesName)
+					&& window[predefinedEdgesName].length > 0) {
+				// the array is defined and has at least one element
+				console.log('found ' + window[predefinedEdgesName].length
+						+ ' predefined edges')
+				graph.edges.clear();
+				graph.edges.add(window[predefinedEdgesName]);
+			}
+		}
 	}
 }

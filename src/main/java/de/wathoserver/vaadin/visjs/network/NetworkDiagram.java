@@ -383,6 +383,13 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     this.predefinedNodesVariableName = predefinedNodesVariableName;
   }
 
+  /**
+   * Clears all edges and nodes sets them to predefinedNodes|EdgesVariable if defined
+   */
+  public void updatePredefinedNodesAndEdges() {
+    runBeforeClientResponse(ui -> getElement().callFunction("$connector.updatePredefined"));
+  }
+
   // ==== Diagram-Methods ====
   public void diagamRedraw() {
     runBeforeClientResponse(ui -> getElement().callFunction("$connector.diagram.redraw"));
