@@ -23,7 +23,7 @@ public class Font {
   String background;
   Integer strokeWidth;
   String strokeColor;
-  String align;
+  Align align;
   String vadjust;
   @JsonIgnore
   String multiStr;
@@ -117,11 +117,11 @@ public class Font {
     this.strokeColor = strokeColor;
   }
 
-  public String getAlign() {
+  public Align getAlign() {
     return align;
   }
 
-  public void setAlign(String align) {
+  public void setAlign(Align align) {
     this.align = align;
   }
 
@@ -228,6 +228,10 @@ public class Font {
     this.monoStyle = null;
   }
 
+  public enum Align {
+    horizontal, top, middle, bottom, left, center
+  }
+
   /**
    * Creates builder to build {@link Font}.
    *
@@ -247,7 +251,7 @@ public class Font {
     private String background;
     private Integer strokeWidth;
     private String strokeColor;
-    private String align;
+    private Align align;
     private String vadjust;
     private String multiStr;
     private Boolean multiBoolean;
@@ -299,7 +303,7 @@ public class Font {
     }
 
     @Nonnull
-    public Builder withAlign(String align) {
+    public Builder withAlign(Align align) {
       this.align = align;
       return this;
     }

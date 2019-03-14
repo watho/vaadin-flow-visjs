@@ -32,7 +32,10 @@ public class Nodes {
   private Fixed fixedObject;
   @JsonIgnore
   private Boolean fixedBoolean;
-  private Font font;
+  @JsonIgnore
+  private Font fontObject;
+  @JsonIgnore
+  private String fontStr;
   // group
   @JsonIgnore
   private HeightConstraint heightConstraintObject;
@@ -82,7 +85,8 @@ public class Nodes {
     this.colorStr = builder.colorStr;
     this.fixedObject = builder.fixedObject;
     this.fixedBoolean = builder.fixedBoolean;
-    this.font = builder.font;
+    this.fontObject = builder.fontObject;
+    this.fontStr = builder.fontStr;
     this.heightConstraintObject = builder.heightConstraintObject;
     this.heightConstraintInteger = builder.heightConstraintInteger;
     this.heightConstraintBoolean = builder.heightConstraintBoolean;
@@ -203,12 +207,27 @@ public class Nodes {
     this.fixedBoolean = null;
   }
 
-  public Font getFont() {
-    return font;
+  @JsonGetter
+  public Object getFont() {
+    return ObjectUtils.firstNonNull(fontObject, fontStr);
   }
 
-  public void setFont(final Font font) {
-    this.font = font;
+  public Font getFontObject() {
+    return fontObject;
+  }
+
+  public String getFontStr() {
+    return fontStr;
+  }
+
+  public void setFont(Font font) {
+    this.fontObject = font;
+    this.fontStr = null;
+  }
+
+  public void setFont(String font) {
+    this.fontStr = font;
+    this.fontObject = null;
   }
 
   @JsonGetter
@@ -473,7 +492,8 @@ public class Nodes {
     private String colorStr;
     private Fixed fixedObject;
     private Boolean fixedBoolean;
-    private Font font;
+    private Font fontObject;
+    private String fontStr;
     private HeightConstraint heightConstraintObject;
     private Integer heightConstraintInteger;
     private Boolean heightConstraintBoolean;
@@ -550,8 +570,14 @@ public class Nodes {
     }
 
     @Nonnull
-    public Builder withFont(Font font) {
-      this.font = font;
+    public Builder withFont(Font fontObject) {
+      this.fontObject = fontObject;
+      return this;
+    }
+
+    @Nonnull
+    public Builder withFont(String fontStr) {
+      this.fontStr = fontStr;
       return this;
     }
 
