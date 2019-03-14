@@ -26,7 +26,7 @@ public class Font {
   Align align;
   String vadjust;
   @JsonIgnore
-  String multiStr;
+  Multi multiEnum;
   @JsonIgnore
   Boolean multiBoolean;
   @JsonIgnore
@@ -55,7 +55,7 @@ public class Font {
     this.strokeColor = builder.strokeColor;
     this.align = builder.align;
     this.vadjust = builder.vadjust;
-    this.multiStr = builder.multiStr;
+    this.multiEnum = builder.multiEnum;
     this.multiBoolean = builder.multiBoolean;
     this.boldStr = builder.boldStr;
     this.boldStyle = builder.boldStyle;
@@ -135,17 +135,17 @@ public class Font {
 
   @JsonGetter
   protected Object getMulti() {
-    return ObjectUtils.firstNonNull(multiBoolean, monoStr);
+    return ObjectUtils.firstNonNull(multiBoolean, multiEnum);
   }
 
-  public void setMulti(String multiStr) {
-    this.multiStr = multiStr;
+  public void setMulti(Multi multi) {
+    this.multiEnum = multi;
     this.multiBoolean = null;
   }
 
   public void setMulti(Boolean multiBoolean) {
     this.multiBoolean = multiBoolean;
-    this.multiStr = null;
+    this.multiEnum = null;
   }
 
   @JsonGetter
@@ -232,6 +232,10 @@ public class Font {
     horizontal, top, middle, bottom, left, center
   }
 
+  public enum Multi {
+    html, markdown, md
+  }
+
   /**
    * Creates builder to build {@link Font}.
    *
@@ -253,7 +257,7 @@ public class Font {
     private String strokeColor;
     private Align align;
     private String vadjust;
-    private String multiStr;
+    private Multi multiEnum;
     private Boolean multiBoolean;
     private String boldStr;
     private FontStyle boldStyle;
@@ -315,8 +319,8 @@ public class Font {
     }
 
     @Nonnull
-    public Builder withMultiStr(String multiStr) {
-      this.multiStr = multiStr;
+    public Builder withMulti(Multi multiEnum) {
+      this.multiEnum = multiEnum;
       return this;
     }
 
@@ -333,43 +337,43 @@ public class Font {
     }
 
     @Nonnull
-    public Builder withBoldStyle(FontStyle boldStyle) {
+    public Builder withBold(FontStyle boldStyle) {
       this.boldStyle = boldStyle;
       return this;
     }
 
     @Nonnull
-    public Builder withItalStr(String italStr) {
+    public Builder withItal(String italStr) {
       this.italStr = italStr;
       return this;
     }
 
     @Nonnull
-    public Builder withItalStyle(FontStyle italStyle) {
+    public Builder withItal(FontStyle italStyle) {
       this.italStyle = italStyle;
       return this;
     }
 
     @Nonnull
-    public Builder withBolditalStr(String bolditalStr) {
+    public Builder withBoldital(String bolditalStr) {
       this.bolditalStr = bolditalStr;
       return this;
     }
 
     @Nonnull
-    public Builder withBolditalStyle(FontStyle bolditalStyle) {
+    public Builder withBoldital(FontStyle bolditalStyle) {
       this.bolditalStyle = bolditalStyle;
       return this;
     }
 
     @Nonnull
-    public Builder withMonoStr(String monoStr) {
+    public Builder withMono(String monoStr) {
       this.monoStr = monoStr;
       return this;
     }
 
     @Nonnull
-    public Builder withMonoStyle(FontStyle monoStyle) {
+    public Builder withMono(FontStyle monoStyle) {
       this.monoStyle = monoStyle;
       return this;
     }
@@ -379,5 +383,4 @@ public class Font {
       return new Font(this);
     }
   }
-
 }
