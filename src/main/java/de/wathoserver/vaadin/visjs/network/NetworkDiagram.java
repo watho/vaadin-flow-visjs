@@ -409,6 +409,16 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
         ui -> getElement().callFunction("$connector.diagram.selectEdges", edgeIdArray));
   }
 
+  public void diagramSetOptions(final Options options) {
+    runBeforeClientResponse(ui -> {
+      try {
+        getElement().callFunction("$connector.setOptions", mapper.writeValueAsString(options));
+      } catch (final JsonProcessingException e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
   public void diagramUnselectAll() {
     runBeforeClientResponse(ui -> getElement().callFunction("$connector.diagram.unselectAll"));
   }

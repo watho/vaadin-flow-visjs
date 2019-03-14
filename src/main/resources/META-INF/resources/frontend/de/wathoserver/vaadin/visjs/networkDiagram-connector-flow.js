@@ -60,6 +60,7 @@ window.Vaadin.Flow.networkDiagramConnector = {
 //			callback(edgeData);
 //		};
 		console.log("networkdiagram options: " + JSON.stringify(graph.options));
+		console.log("nodes: " + JSON.stringify(graph.nodes));
 		graph.$connector.diagram = new vis.Network(graph, {
 			nodes : graph.nodes,
 			edges : graph.edges
@@ -186,6 +187,10 @@ window.Vaadin.Flow.networkDiagramConnector = {
 				// removed, addedCount : 0, object: graph.edges, type:
 				// "splice"}]);
 			}
+		};
+		graph.$connector.setOptions = function(options) {
+			graph.options = JSON.parse(options);
+			graph.$connector.diagram.setOptions(graph.options);
 		};
 	}
 }
