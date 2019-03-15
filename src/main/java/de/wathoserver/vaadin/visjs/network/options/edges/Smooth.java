@@ -16,14 +16,14 @@ public class Smooth {
   @JsonIgnore
   private Boolean forceDirectionBoolean;
   @JsonIgnore
-  private String forceDirectionStr;
+  private ForceDirection forceDirectionEnum;
   private Double roundness;
 
   private Smooth(Builder builder) {
     this.enabled = builder.enabled;
     this.type = builder.type;
     this.forceDirectionBoolean = builder.forceDirectionBoolean;
-    this.forceDirectionStr = builder.forceDirectionStr;
+    this.forceDirectionEnum = builder.forceDirectionEnum;
     this.roundness = builder.roundness;
   }
 
@@ -55,27 +55,27 @@ public class Smooth {
 
   @JsonGetter
   public Object getForceDirection() {
-    return ObjectUtils.firstNonNull(forceDirectionBoolean, forceDirectionStr);
+    return ObjectUtils.firstNonNull(forceDirectionBoolean, forceDirectionEnum);
   }
 
   public Boolean getForceDirectionBoolean() {
     return forceDirectionBoolean;
   }
 
-  public String getForceDirectionStr() {
-    return forceDirectionStr;
+  public ForceDirection getForceDirectionEnum() {
+    return forceDirectionEnum;
   }
 
-  public void setForceDirectionBoolean(Boolean forceDirection) {
+  public void setForceDirection(Boolean forceDirection) {
     this.forceDirectionBoolean = forceDirection;
     if (this.forceDirectionBoolean != null) {
-      this.forceDirectionStr = null;
+      this.forceDirectionEnum = null;
     }
   }
 
-  public void setForceDirectionStr(String forceDirectionStr) {
-    this.forceDirectionStr = forceDirectionStr;
-    if (this.forceDirectionStr != null) {
+  public void setForceDirection(ForceDirection forceDirectionEnum) {
+    this.forceDirectionEnum = forceDirectionEnum;
+    if (this.forceDirectionEnum != null) {
       this.forceDirectionBoolean = null;
     }
   }
@@ -83,6 +83,10 @@ public class Smooth {
   public static enum Type {
     dynamic, continuous, diagonalCross, straightCross, horizontal, vertical, curvedCW, curvedCCW, cubicBezier, discrete,
   }
+
+  public static enum ForceDirection {
+    horizontal, vertical, none
+  };
 
   /**
    * Creates builder to build {@link Smooth}.
@@ -100,7 +104,7 @@ public class Smooth {
     private Boolean enabled;
     private Type type;
     private Boolean forceDirectionBoolean;
-    private String forceDirectionStr;
+    private ForceDirection forceDirectionEnum;
     private Double roundness;
 
     private Builder() {}
@@ -124,8 +128,8 @@ public class Smooth {
     }
 
     @Nonnull
-    public Builder withForceDirection(String forceDirectionStr) {
-      this.forceDirectionStr = forceDirectionStr;
+    public Builder withForceDirection(ForceDirection forceDirectionEnum) {
+      this.forceDirectionEnum = forceDirectionEnum;
       return this;
     }
 
