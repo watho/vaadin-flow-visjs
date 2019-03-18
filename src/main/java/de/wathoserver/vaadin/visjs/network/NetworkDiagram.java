@@ -33,7 +33,7 @@ import com.vaadin.flow.function.SerializableConsumer;
 import com.vaadin.flow.internal.JsonUtils;
 import com.vaadin.flow.shared.Registration;
 
-import de.wathoserver.vaadin.visjs.network.api.Event;
+import de.wathoserver.vaadin.visjs.network.api.NetworkDiagramEvent;
 import de.wathoserver.vaadin.visjs.network.event.AfterDrawingEvent;
 import de.wathoserver.vaadin.visjs.network.event.AnimationFinshedEvent;
 import de.wathoserver.vaadin.visjs.network.event.BeforeDrawingEvent;
@@ -117,7 +117,7 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
   private final ObjectMapper mapper = new ObjectMapper();
 
   // Holds all eventtypes already registered client side.
-  private final Set<Class<? extends Event>> enabledEvents = new LinkedHashSet<>();
+  private final Set<Class<? extends NetworkDiagramEvent>> enabledEvents = new LinkedHashSet<>();
 
   private DataProvider<Edge, ?> edgesDataProvider = DataProvider.ofItems();
   private DataProvider<Node, ?> nodesDataProvider = DataProvider.ofItems();
@@ -446,7 +446,7 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
   }
 
   // ==== Events ====
-  private void enableEventDispatching(Class<? extends Event> clazz) {
+  private void enableEventDispatching(Class<? extends NetworkDiagramEvent> clazz) {
     runBeforeClientResponse(ui -> {
       if (!enabledEvents.contains(clazz)) {
         enabledEvents.add(clazz);

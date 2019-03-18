@@ -1,12 +1,13 @@
-package de.wathoserver.vaadin.visjs.network.api;
+package de.wathoserver.vaadin.visjs.network.event;
 
 import com.vaadin.flow.component.ComponentEvent;
 
 import de.wathoserver.vaadin.visjs.network.NetworkDiagram;
+import de.wathoserver.vaadin.visjs.network.api.NetworkDiagramEvent;
 import elemental.json.JsonObject;
 
 @SuppressWarnings("serial")
-public abstract class Event extends ComponentEvent<NetworkDiagram> {
+public abstract class EventWithGenericParams extends ComponentEvent<NetworkDiagram> implements NetworkDiagramEvent {
 
   private final JsonObject params;
 
@@ -17,7 +18,7 @@ public abstract class Event extends ComponentEvent<NetworkDiagram> {
    * @param fromClient
    * @param params
    */
-  public Event(NetworkDiagram source, boolean fromClient, final JsonObject params) {
+  public EventWithGenericParams(NetworkDiagram source, boolean fromClient, final JsonObject params) {
     super(source, fromClient);
     this.params = params;
   }

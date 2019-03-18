@@ -4,7 +4,6 @@ import com.vaadin.flow.component.DomEvent;
 import com.vaadin.flow.component.EventData;
 
 import de.wathoserver.vaadin.visjs.network.NetworkDiagram;
-import de.wathoserver.vaadin.visjs.network.api.Event;
 import elemental.json.JsonException;
 import elemental.json.JsonObject;
 
@@ -13,7 +12,7 @@ import elemental.json.JsonObject;
  */
 @SuppressWarnings("serial")
 @DomEvent("vaadin-click")
-public class ClickEvent extends Event {
+public class ClickEvent extends EventWithGenericParams {
   public ClickEvent(final NetworkDiagram source, boolean fromClient,
       @EventData("event.detail") final JsonObject params)
       throws JsonException {

@@ -107,7 +107,7 @@ window.Vaadin.Flow.networkDiagramConnector = {
 														}
 														return value;
 													});
-								}
+								}								
 								graph.dispatchEvent(new CustomEvent(
 										vaadinEventType, {
 											detail : params
