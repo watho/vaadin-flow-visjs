@@ -251,6 +251,20 @@ window.Vaadin.Flow.networkDiagramConnector = {
 			graph.options = JSON.parse(options);
 			graph.$connector.diagram.setOptions(graph.options);
 		};
+		
+		// TODO error handling
+		graph.$connector.convertGephi = function(url, parserOptions) {
+			graph.$connector.loadJSON(url, function(json) {
+				var parsed = vis.network.convertGephi(json,
+						JSON.parse(parserOptions));
+				graph.nodes = parsed.nodes;
+				graph.edges = parsed.edges;
+				graph.$connector.diagram.setData({
+					nodes : graph.nodes,
+					edges : graph.edges
+				});
+			});
+		}
 
 		graph.$connector.updatePredefined = function() {
 			const predefinedNodesName = graph.predefinedNodesName;
@@ -273,6 +287,21 @@ window.Vaadin.Flow.networkDiagramConnector = {
 				graph.edges.clear();
 				graph.edges.add(window[predefinedEdgesName]);
 			}
+		}
+
+		graph.$connector.loadJSON = function(path, success, error) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
+						success(JSON.parse(xhr.responseText));
+					} else {
+						error(xhr);
+					}
+				}
+			};
+			xhr.open('GET', path, true);
+			xhr.send();
 		}
 	}
 }

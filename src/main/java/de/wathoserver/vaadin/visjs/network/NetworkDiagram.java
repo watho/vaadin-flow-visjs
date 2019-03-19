@@ -38,6 +38,7 @@ import com.vaadin.flow.function.SerializableConsumer;
 import com.vaadin.flow.internal.JsonUtils;
 import com.vaadin.flow.shared.Registration;
 
+import de.wathoserver.vaadin.visjs.network.api.GephiOptions;
 import de.wathoserver.vaadin.visjs.network.api.NetworkDiagramEvent;
 import de.wathoserver.vaadin.visjs.network.event.AfterDrawingEvent;
 import de.wathoserver.vaadin.visjs.network.event.AnimationFinshedEvent;
@@ -536,6 +537,17 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
   public void resetDiagram() {
     destroyDiagram();
     runBeforeClientResponse(ui -> getElement().callFunction("$connector.init"));
+  }
+
+  public void convertGephi(final String urlToJson, final GephiOptions options) {
+    runBeforeClientResponse(ui -> {
+      try {
+        getElement().callFunction("$connector.convertGephi", urlToJson,
+            mapper.writeValueAsString(options));
+      } catch (final JsonProcessingException e) {
+        e.printStackTrace();
+      }
+    });
   }
 
   /**
