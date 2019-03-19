@@ -362,13 +362,13 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     });
   }
 
-  private void removeAllEdges() {
+  public void clearEdges() {
     runBeforeClientResponse(ui -> {
       getElement().callFunction("$connector.clearEdges");
     });
   }
 
-  private void removeAllNodes() {
+  public void clearNodes() {
     runBeforeClientResponse(ui -> {
       getElement().callFunction("$connector.clearNodes");
     });
@@ -415,8 +415,8 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
   private void reset() {
     final Set<Node> nodes = nodesDataProvider.fetch(new Query<>()).collect(Collectors.toSet());
     final Set<Edge> edges = edgesDataProvider.fetch(new Query<>()).collect(Collectors.toSet());
-    removeAllNodes();
-    removeAllEdges();
+    clearNodes();
+    clearEdges();
     addNodes(nodes);
     addEdges(edges);
   }
