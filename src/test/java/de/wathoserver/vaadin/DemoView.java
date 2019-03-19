@@ -51,11 +51,11 @@ public class DemoView extends VerticalLayout {
       dataProvider.refreshAll();
       registration.remove();
     }), new Button("fit", e -> {
-      nd.diagramFit();
+      nd.fitDiagram();
     }), new Button("selectNode", e -> {
-      nd.diagramSelectNodes(Arrays.asList(new String[] {"2", "3"}));
+      nd.selectNodes(Arrays.asList(new String[] {"2", "3"}));
     }), new Button("unselectAll", e -> {
-      nd.diagramUnselectAll();;
+      nd.unselectAll();;
     })));
   }
 

@@ -70,12 +70,17 @@ window.Vaadin.Flow.networkDiagramConnector = {
 		// self.onManipulationEdgeEdited(edgeData);
 		// callback(edgeData);
 		// };
-		console.log("networkdiagram options: " + JSON.stringify(graph.options));
-		// console.log("nodes: " + JSON.stringify(graph.nodes));
-		graph.$connector.diagram = new vis.Network(graph, {
-			nodes : graph.nodes,
-			edges : graph.edges
-		}, graph.options);
+		
+		graph.$connector.init = function(){
+			console.log("networkdiagram options: " + JSON.stringify(graph.options));
+			// console.log("nodes: " + JSON.stringify(graph.nodes));
+			graph.$connector.diagram = new vis.Network(graph, {
+				nodes : graph.nodes,
+				edges : graph.edges
+			}, graph.options);			
+		}		
+		graph.$connector.init();
+		
 
 		// Enable event dispatching to vaadin only for registered eventTypes to
 		// avoid to much overhead.
@@ -123,26 +128,15 @@ window.Vaadin.Flow.networkDiagramConnector = {
 				graph.dispatchEvent(new Event(vaadinEventType));
 			});
 		}
-
-		graph.$connector.addEdges = function(edges) {
-			let edgesObject = JSON.parse(edges);
-			graph.edges.add(edgesObject);
-		}
-
-		graph.$connector.updateEdges = function(edges) {
-			alert('updateEdges: ' + edges);
-		}
-
-		graph.$connector.setNodes = function(index, nodes) {
-			console.log("setNodes " + JSON.stringify(nodes));
-			for (let i = 0; i < graph.nodes.length; i++) {
-				// const itemsIndex = index + i;
-				// console.log(typeof nodes[i])
-				// console.log(typeof nodes[i].nodes)
-				const node = JSON.parse(nodes[i].nodes);
-				// console.log(JSON.stringify(node));
-				graph.nodes.add(node);
-			}
+		
+		graph.$connector.setData = function(nodes, edges) {
+				const nodesObject = JSON.parse(nodes);
+				const edgesObject = JSON.parse(edges);
+				//console.log("set Data:", JSON.stringify(nodesObject), JSON.stringify(edgesObject));
+				graph.nodes = new vis.DataSet(nodesObject);
+				graph.edges = new vis.DataSet(edgesObject);
+				graph.$connector.diagram.setData({nodes: graph.nodes, edges: graph.edges});
+				//console.log("set Data after:", JSON.stringify(graph.nodes), JSON.stringify(graph.edges));
 		}
 
 		graph.$connector.addNodes = function(nodes) {
@@ -152,10 +146,31 @@ window.Vaadin.Flow.networkDiagramConnector = {
 			// console.log("addNodesParsed: " + typeof nodesObject + "=" +
 			// JSON.stringify(nodesObject));
 			graph.nodes.add(nodesObject);
-		}
+		}		
 
 		graph.$connector.updateNodes = function(nodes) {
-			alert('updateNodes: ' + nodes);
+			let nodesObject = JSON.parse(nodes);
+			graph.nodes.update(nodesObject);
+		}
+		
+		graph.$connector.addEdges = function(edges) {
+			let edgesObject = JSON.parse(edges);
+			graph.edges.add(edgesObject);
+		}		
+		
+		graph.$connector.updateEdges = function(edges) {
+			let edgesObject = JSON.parse(edges);
+			graph.edges.update(edgesObject);
+		}
+		
+		graph.$connector.removeNodes = function(nodes) {
+			let nodesObject = JSON.parse(nodes);
+			graph.nodes.remove(nodesObject);
+		}
+		
+		graph.$connector.removeEdges = function(edges) {
+			let edgesObject = JSON.parse(edges);
+			graph.edges.remove(edgesObject);
 		}
 
 		graph.$connector.clearNodes = function() {

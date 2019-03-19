@@ -268,11 +268,21 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     setEdgesDataProvider(new ListDataProvider<>(Arrays.asList(edges)));
   }
 
-  private void addNodes(Iterable<Node> nodes) {
+  public void setData(Iterable<Node> nodes, Iterable<Edge> edges) {
+    // TODO use DataProvider
+    try {
+      getElement().callFunction("$connector.setData", mapper.writeValueAsString(nodes),
+          mapper.writeValueAsString(edges));
+    } catch (final JsonProcessingException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addNodes(Iterable<Node> nodes) {
     addNodes(StreamSupport.stream(nodes.spliterator(), false).toArray(Node[]::new));
   }
 
-  private void addNodes(final Node... node) {
+  public void addNodes(final Node... node) {
     runBeforeClientResponse(ui -> {
       try {
         getElement().callFunction("$connector.addNodes", mapper.writeValueAsString(node));
@@ -282,14 +292,70 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     });
   }
 
-  private void addEdges(Iterable<Edge> edges) {
+  public void updateNodes(Iterable<Node> nodes) {
+    updateNodes(StreamSupport.stream(nodes.spliterator(), false).toArray(Node[]::new));
+  }
+
+  public void updateNodes(final Node... node) {
+    runBeforeClientResponse(ui -> {
+      try {
+        getElement().callFunction("$connector.updateNodes", mapper.writeValueAsString(node));
+      } catch (final JsonProcessingException e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
+  public void removeNodes(Iterable<Node> nodes) {
+    removeNodes(StreamSupport.stream(nodes.spliterator(), false).toArray(Node[]::new));
+  }
+
+  public void removeNodes(final Node... node) {
+    runBeforeClientResponse(ui -> {
+      try {
+        getElement().callFunction("$connector.removeNodes", mapper.writeValueAsString(node));
+      } catch (final JsonProcessingException e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
+  public void addEdges(Iterable<Edge> edges) {
     addEdges(StreamSupport.stream(edges.spliterator(), false).toArray(Edge[]::new));
   }
 
-  private void addEdges(final Edge... edge) {
+  public void addEdges(final Edge... edge) {
     runBeforeClientResponse(ui -> {
       try {
         getElement().callFunction("$connector.addEdges", mapper.writeValueAsString(edge));
+      } catch (final JsonProcessingException e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
+  public void updateEdges(Iterable<Edge> edges) {
+    updateEdges(StreamSupport.stream(edges.spliterator(), false).toArray(Edge[]::new));
+  }
+
+  public void updateEdges(final Edge... edge) {
+    runBeforeClientResponse(ui -> {
+      try {
+        getElement().callFunction("$connector.updateEdges", mapper.writeValueAsString(edge));
+      } catch (final JsonProcessingException e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
+  public void removeEdges(Iterable<Edge> edges) {
+    removeEdges(StreamSupport.stream(edges.spliterator(), false).toArray(Edge[]::new));
+  }
+
+  public void removeEdges(final Edge... edge) {
+    runBeforeClientResponse(ui -> {
+      try {
+        getElement().callFunction("$connector.removeEdges", mapper.writeValueAsString(edge));
       } catch (final JsonProcessingException e) {
         e.printStackTrace();
       }
@@ -391,32 +457,32 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
   }
 
   // ==== Diagram-Methods ====
-  public void diagamRedraw() {
+  public void redrawDiagram() {
     runBeforeClientResponse(ui -> getElement().callFunction("$connector.diagram.redraw"));
   }
 
-  public void diagramSetSize(final String width, final String height) {
+  public void setSize(final String width, final String height) {
     this.setWidth(width);
     this.setHeight(height);
     runBeforeClientResponse(
         ui -> getElement().callFunction("$connector.diagram.setSize", width, height));
   }
 
-  public void diagramSelectNodes(Iterable<String> nodeIds) {
+  public void selectNodes(Iterable<String> nodeIds) {
     final JsonArray nodeIdArray = StreamSupport.stream(nodeIds.spliterator(), false)
         .map(JreJsonString::new).collect(JsonUtils.asArray());
     runBeforeClientResponse(
         ui -> getElement().callFunction("$connector.diagram.selectNodes", nodeIdArray));
   }
 
-  public void diagramSelectEdges(Iterable<String> edgeIds) {
+  public void selectEdges(Iterable<String> edgeIds) {
     final JsonArray edgeIdArray = StreamSupport.stream(edgeIds.spliterator(), false)
         .map(JreJsonString::new).collect(JsonUtils.asArray());
     runBeforeClientResponse(
         ui -> getElement().callFunction("$connector.diagram.selectEdges", edgeIdArray));
   }
 
-  public void diagramSetOptions(final Options options) {
+  public void setOptions(final Options options) {
     runBeforeClientResponse(ui -> {
       try {
         getElement().callFunction("$connector.setOptions", mapper.writeValueAsString(options));
@@ -426,11 +492,15 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     });
   }
 
-  public void diagramUnselectAll() {
+  public void stabilizeDiagram() {
+    runBeforeClientResponse(ui -> getElement().callFunction("$connector.diagram.stabilize"));
+  }
+
+  public void unselectAll() {
     runBeforeClientResponse(ui -> getElement().callFunction("$connector.diagram.unselectAll"));
   }
 
-  public void diagramFit() {
+  public void fitDiagram() {
     runBeforeClientResponse(ui -> getElement().callFunction("$connector.diagram.fit"));
   }
 
@@ -441,8 +511,13 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
         ui -> getElement().callFunction("$connector.diagram.setSize", getWidth(), getHeight()));
   }
 
-  public void diagamDestroy() {
+  public void destroyDiagram() {
     runBeforeClientResponse(ui -> getElement().callFunction("$connector.diagram.destroy"));
+  }
+
+  public void resetDiagram() {
+    destroyDiagram();
+    runBeforeClientResponse(ui -> getElement().callFunction("$connector.init"));
   }
 
   // ==== Events ====
