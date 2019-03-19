@@ -1,17 +1,17 @@
 package de.wathoserver.vaadin.visjs.network;
 
+import java.util.Objects;
+import java.util.UUID;
+
 import de.wathoserver.vaadin.visjs.network.options.nodes.Nodes;
 
 public class Node extends Nodes {
 
   private String id;
 
-  // @JsonIgnore
-  // private transient List<Edge> edgeList = new ArrayList<>();;
-  // @JsonIgnore
-  // private transient Map<String, Edge> edgeMap = new HashMap<>();;
-
-  public Node() {};
+  public Node() {
+    this(UUID.randomUUID().toString());
+  };
 
   public Node(final String id) {
     this.id = id;
@@ -41,29 +41,14 @@ public class Node extends Nodes {
     this.id = id;
   }
 
-  // FIXME sync with JS-Component
-  // public List<Edge> getConnectedEdges() {
-  // return edgeList;
-  // }
-  //
-  // public void setConnectedEdges(List<Edge> edgeList) {
-  // this.edgeList = edgeList;
-  // }
-  //
-  // public void addEdgeToList(Edge edge) {
-  // edgeList.add(edge);
-  // }
-  //
-  // public void removeEdgeFromList(Edge edge) {
-  // edgeList.remove(edge);
-  // }
-  //
-  // public Map<String, Edge> getEdgeMap() {
-  // return edgeMap;
-  // }
-  //
-  // public void setEdgeMap(Map<String, Edge> edgeMap) {
-  // this.edgeMap = edgeMap;
-  // }
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return Objects.equals(id, ((Node) obj).id);
+  }
 
 }

@@ -1,8 +1,12 @@
 package de.wathoserver.vaadin.visjs.network;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,6 +21,7 @@ import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.DomEvent;
@@ -47,11 +52,14 @@ import de.wathoserver.vaadin.visjs.network.event.DoubleClickEvent;
 import de.wathoserver.vaadin.visjs.network.event.DragEndEvent;
 import de.wathoserver.vaadin.visjs.network.event.DragStartEvent;
 import de.wathoserver.vaadin.visjs.network.event.DraggingEvent;
+import de.wathoserver.vaadin.visjs.network.event.EdgesChangedEvent;
+import de.wathoserver.vaadin.visjs.network.event.EdgesChangedEvent.EventType;
 import de.wathoserver.vaadin.visjs.network.event.HidePopupEvent;
 import de.wathoserver.vaadin.visjs.network.event.HoldEvent;
 import de.wathoserver.vaadin.visjs.network.event.HoverEdgeEvent;
 import de.wathoserver.vaadin.visjs.network.event.HoverNodeEvent;
 import de.wathoserver.vaadin.visjs.network.event.InitRedrawEvent;
+import de.wathoserver.vaadin.visjs.network.event.NodesChangedEvent;
 import de.wathoserver.vaadin.visjs.network.event.OnContextEvent;
 import de.wathoserver.vaadin.visjs.network.event.ReleaseEvent;
 import de.wathoserver.vaadin.visjs.network.event.ResizeEvent;
@@ -77,11 +85,13 @@ import de.wathoserver.vaadin.visjs.network.listener.DoubleClickListener;
 import de.wathoserver.vaadin.visjs.network.listener.DragEndListener;
 import de.wathoserver.vaadin.visjs.network.listener.DragStartListener;
 import de.wathoserver.vaadin.visjs.network.listener.DraggingListener;
+import de.wathoserver.vaadin.visjs.network.listener.EdgesChangedListener;
 import de.wathoserver.vaadin.visjs.network.listener.HidePopupListener;
 import de.wathoserver.vaadin.visjs.network.listener.HoldListener;
 import de.wathoserver.vaadin.visjs.network.listener.HoverEdgeListener;
 import de.wathoserver.vaadin.visjs.network.listener.HoverNodeListener;
 import de.wathoserver.vaadin.visjs.network.listener.InitRedrawListener;
+import de.wathoserver.vaadin.visjs.network.listener.NodesChangedListener;
 import de.wathoserver.vaadin.visjs.network.listener.OnContextListener;
 import de.wathoserver.vaadin.visjs.network.listener.ReleaseListener;
 import de.wathoserver.vaadin.visjs.network.listener.ResizeListener;
@@ -96,6 +106,8 @@ import de.wathoserver.vaadin.visjs.network.listener.StartStabilizingListener;
 import de.wathoserver.vaadin.visjs.network.listener.ZoomListener;
 import de.wathoserver.vaadin.visjs.network.options.Options;
 import elemental.json.JsonArray;
+import elemental.json.JsonString;
+import elemental.json.JsonType;
 import elemental.json.impl.JreJsonString;
 
 /**
@@ -124,6 +136,8 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
 
   private Registration edgeDataProviderListenerRegistration;
   private Registration nodeDataProviderListenerRegistration;
+  private final Map<String, Node> nodes = new LinkedHashMap<>();
+  private final Map<String, Edge> edges = new LinkedHashMap<>();
 
   public NetworkDiagram() {
     this(new Options());
@@ -149,6 +163,8 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
   }
 
   private void initConnector() {
+    nodes.clear();
+    edges.clear();
     String nodesArray = "[]";
     try {
       nodesArray = mapper.writeValueAsString(
@@ -201,20 +217,6 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     getElement().getNode()
         .runWhenAttached(ui -> ui.beforeClientResponse(this, context -> command.accept(ui)));
   }
-
-  // public void setCustomNodeIfAdded(final boolean activate, final String id, final String label) {
-  // callFunction("setCustomNodeIfAdded", activate, id, label);
-  // }
-  //
-  // public void setCustomEdgeIfAdded(final boolean activate, final String id, final String label) {
-  // callFunction("setCustomEdgeIfAdded", activate, id, label);
-  // }
-
-  // public void updateOptions(final Options options) {
-  // getState().updates++;
-  // callFunction("updateOptions", gson.toJson(options));
-  // }
-  //
 
   /**
    * Creates a ListDataProvider with the given items.
@@ -306,14 +308,14 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     });
   }
 
-  public void removeNodes(Iterable<Node> nodes) {
-    removeNodes(StreamSupport.stream(nodes.spliterator(), false).toArray(Node[]::new));
+  public void removeNodes(Iterable<String> nodeIds) {
+    removeNodes(StreamSupport.stream(nodeIds.spliterator(), false).toArray(String[]::new));
   }
 
-  public void removeNodes(final Node... node) {
+  public void removeNodes(final String... nodeIds) {
     runBeforeClientResponse(ui -> {
       try {
-        getElement().callFunction("$connector.removeNodes", mapper.writeValueAsString(node));
+        getElement().callFunction("$connector.removeNodes", mapper.writeValueAsString(nodeIds));
       } catch (final JsonProcessingException e) {
         e.printStackTrace();
       }
@@ -348,14 +350,14 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     });
   }
 
-  public void removeEdges(Iterable<Edge> edges) {
-    removeEdges(StreamSupport.stream(edges.spliterator(), false).toArray(Edge[]::new));
+  public void removeEdges(Iterable<String> edgeIds) {
+    removeEdges(StreamSupport.stream(edgeIds.spliterator(), false).toArray(String[]::new));
   }
 
-  public void removeEdges(final Edge... edge) {
+  public void removeEdges(final String... edgeIds) {
     runBeforeClientResponse(ui -> {
       try {
-        getElement().callFunction("$connector.removeEdges", mapper.writeValueAsString(edge));
+        getElement().callFunction("$connector.removeEdges", mapper.writeValueAsString(edgeIds));
       } catch (final JsonProcessingException e) {
         e.printStackTrace();
       }
@@ -419,6 +421,22 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     clearEdges();
     addNodes(nodes);
     addEdges(edges);
+  }
+
+  /**
+   *
+   * @return unmodifiableMap of edges
+   */
+  public Map<String, Edge> getEdges() {
+    return Collections.unmodifiableMap(edges);
+  }
+
+  /**
+   *
+   * @return unmodifiableMap of nodes
+   */
+  public Map<String, Node> getNodes() {
+    return Collections.unmodifiableMap(nodes);
   }
 
   /**
@@ -520,6 +538,105 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
     runBeforeClientResponse(ui -> getElement().callFunction("$connector.init"));
   }
 
+  /**
+   * The jackson object mapper used to serialize options, nodes and edges.
+   *
+   * @return
+   */
+  public ObjectMapper getMapper() {
+    return mapper;
+  }
+
+  /**
+   * Called from javascript, when node changes occur.
+   *
+   * @param eventTypeJson
+   * @param params
+   */
+  @ClientCallable
+  public void nodesChanged(final JsonString eventTypeJson, final JsonArray params) {
+    final de.wathoserver.vaadin.visjs.network.event.NodesChangedEvent.EventType eventType =
+        de.wathoserver.vaadin.visjs.network.event.NodesChangedEvent.EventType
+            .valueOf(eventTypeJson.asString());
+    final int size = params.length();
+    for (int i = 0; i < size; i++) {
+      switch (eventType) {
+        case add:
+        case update:
+          if (params.get(i).getType().equals(JsonType.OBJECT)) {
+            log.debug("Node: {}", params.getObject(i));
+            try {
+              final Node node = mapper.readValue(params.getObject(i).toJson(), Node.class);
+              nodes.put(node.getId(), node);
+            } catch (final IOException e) {
+              e.printStackTrace();
+            }
+          } else {
+            log.warn("Retrieved wrong param for {} type: {}", params.get(i).toJson(),
+                params.get(i).getType());
+          }
+          break;
+        case remove:
+          if (params.get(i).getType().equals(JsonType.STRING)) {
+            log.debug("NodeId to delete: {}", params.getString(i));
+            nodes.remove(params.getString(i));
+          } else {
+            log.warn("Retrieved wrong param for {} type: {}", params.get(i).toJson(),
+                params.get(i).getType());
+          }
+          break;
+        default:
+          log.warn("Unknown eventType: {}", eventTypeJson.asString());
+          break;
+      }
+    }
+    fireEvent(new NodesChangedEvent(this, true, eventType));
+  }
+
+  /**
+   * Called from javascript, when edge changes occur.
+   *
+   * @param eventTypeJson add, update or delete
+   * @param params array with objects of type edge
+   */
+  @ClientCallable
+  public void edgesChanged(final JsonString eventTypeJson, final JsonArray params) {
+    final EventType eventType = EventType.valueOf(eventTypeJson.asString());
+    final int size = params.length();
+    for (int i = 0; i < size; i++) {
+      switch (eventType) {
+        case add:
+        case update:
+          if (params.get(i).getType().equals(JsonType.OBJECT)) {
+            log.debug("Edge: {}", params.getObject(i));
+            try {
+              final Edge edge = mapper.readValue(params.getObject(i).toJson(), Edge.class);
+              edges.put(edge.getId(), edge);
+            } catch (final IOException e) {
+              e.printStackTrace();
+            }
+          } else {
+            log.warn("Retrieved wrong param for {} type: {}", params.get(i).toJson(),
+                params.get(i).getType());
+          }
+          break;
+        case remove:
+          if (params.get(i).getType().equals(JsonType.STRING)) {
+            log.debug("EdgeId to delete: {}", params.getString(i));
+            edges.remove(params.getString(i));
+          } else {
+            log.warn("Retrieved wrong param for {} type: {}", params.get(i).toJson(),
+                params.get(i).getType());
+          }
+          break;
+        default:
+          log.warn("Unknown eventType: {}", eventTypeJson.asString());
+          break;
+      }
+    }
+    fireEvent(new EdgesChangedEvent(this, true, eventType));
+  }
+
   // ==== Events ====
   private void enableEventDispatching(Class<? extends NetworkDiagramEvent> clazz) {
     runBeforeClientResponse(ui -> {
@@ -529,6 +646,14 @@ public class NetworkDiagram extends Component implements HasSize, HasStyle {
             clazz.getAnnotation(DomEvent.class).value());
       }
     });
+  }
+
+  public Registration addNodesChangedListener(final NodesChangedListener listener) {
+    return addListener(NodesChangedEvent.class, listener);
+  }
+
+  public Registration addEdgesChangedListener(final EdgesChangedListener listener) {
+    return addListener(EdgesChangedEvent.class, listener);
   }
 
   public Registration addClickListener(final ClickListener listener) {

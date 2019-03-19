@@ -1,5 +1,8 @@
 package de.wathoserver.vaadin.visjs.network;
 
+import java.util.Objects;
+import java.util.UUID;
+
 import de.wathoserver.vaadin.visjs.network.options.edges.Edges;
 
 /**
@@ -10,35 +13,41 @@ public class Edge extends Edges {
   private String to;
   private String id;
 
-  public Edge(final Node from, final Node to) {
-    this.from = from.getId();
-    this.to = to.getId();
+  // For serialization
+  private Edge() {
+    this(UUID.randomUUID().toString());
   }
 
-  public Edge(final Node from, final Node to, final Builder builder) {
-    super(builder);
-    this.from = from.getId();
-    this.to = to.getId();
+  public Edge(final String id) {
+    super();
   }
 
   public Edge(final String from, final String to) {
+    this();
     this.from = from;
     this.to = to;
   }
 
   public Edge(final String from, final String to, final Builder builder) {
+    this(UUID.randomUUID().toString(), to, from, builder);
+  }
+
+  public Edge(final String id, final String from, final String to, final Builder builder) {
     super(builder);
+    this.id = id;
     this.from = from;
     this.to = to;
   }
 
-  public Edge(final Node from, final Node to, final String label) {
-    this.from = from.getId();
-    this.to = to.getId();
+  public Edge(final String from, final String to, final String label) {
+    this();
+    this.from = from;
+    this.to = to;
     this.setLabel(label);
   }
 
-  public Edge(final String from, final String to, final String label) {
+  public Edge(final String id, final String from, final String to, final String label) {
+    this.id = id;
     this.from = from;
     this.to = to;
     this.setLabel(label);
@@ -66,6 +75,16 @@ public class Edge extends Edges {
 
   public void setTo(final String to) {
     this.to = to;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return Objects.equals(id, ((Edge) obj).id);
   }
 
 }

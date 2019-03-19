@@ -7,13 +7,13 @@ import org.apache.commons.lang3.ObjectUtils;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 
 import de.wathoserver.vaadin.visjs.network.util.Font;
 import de.wathoserver.vaadin.visjs.network.util.Scaling;
 import de.wathoserver.vaadin.visjs.network.util.Shadow;
 
-@JsonDeserialize(builder = Edges.Builder.class)
 public class Edges {
 
   @JsonIgnore
@@ -143,6 +143,18 @@ public class Edges {
     return ObjectUtils.firstNonNull(colorObject, colorStr);
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setColor(final Object color) {
+    if (color != null) {
+      if (color instanceof EdgeColor) {
+        setColor(((EdgeColor) color));
+      }
+      if (color instanceof String) {
+        setColor(((String) color));
+      }
+    }
+  }
+
   public EdgeColor getColorObject() {
     return colorObject;
   }
@@ -164,6 +176,18 @@ public class Edges {
   @JsonGetter
   public Object getDashes() {
     return ObjectUtils.firstNonNull(dashesArray, dashesBoolean);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setDashes(final Object dashes) {
+    if (dashes != null) {
+      if (dashes instanceof Integer[]) {
+        setDashes(((Integer[]) dashes));
+      }
+      if (dashes instanceof Boolean) {
+        setDashes(((Boolean) dashes));
+      }
+    }
   }
 
   public Integer[] getDashesArray() {
@@ -189,6 +213,18 @@ public class Edges {
     return ObjectUtils.firstNonNull(fontObject, fontStr);
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setFont(final Object font) {
+    if (font != null) {
+      if (font instanceof Font) {
+        setFont(((Font) font));
+      }
+      if (font instanceof String) {
+        setFont(((String) font));
+      }
+    }
+  }
+
   public Font getFontObject() {
     return fontObject;
   }
@@ -210,6 +246,18 @@ public class Edges {
   @JsonGetter
   public Object getArrows() {
     return ObjectUtils.firstNonNull(arrowsObject, arrowsStr);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setArrows(final Object arrows) {
+    if (arrows != null) {
+      if (arrows instanceof Arrows) {
+        setArrows(((Arrows) arrows));
+      }
+      if (arrows instanceof String) {
+        setArrows(((String) arrows));
+      }
+    }
   }
 
   public Arrows getArrowsObject() {
@@ -291,6 +339,18 @@ public class Edges {
     return ObjectUtils.firstNonNull(shadowObject, shadowBoolean);
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setShadow(final Object shadow) {
+    if (shadow != null) {
+      if (shadow instanceof Shadow) {
+        setShadow(((Shadow) shadow));
+      }
+      if (shadow instanceof Boolean) {
+        setShadow(((Boolean) shadow));
+      }
+    }
+  }
+
   public Shadow getShadowObject() {
     return shadowObject;
   }
@@ -312,6 +372,18 @@ public class Edges {
   @JsonGetter
   public Object getSmooth() {
     return ObjectUtils.firstNonNull(smoothObject, smoothBoolean);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setSmooth(final Object smooth) {
+    if (smooth != null) {
+      if (smooth instanceof Smooth) {
+        setSmooth(((Smooth) smooth));
+      }
+      if (smooth instanceof Boolean) {
+        setSmooth(((Boolean) smooth));
+      }
+    }
   }
 
   public Smooth getSmoothObject() {

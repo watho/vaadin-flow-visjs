@@ -6,6 +6,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 
 public class Arrows {
 
@@ -38,6 +40,18 @@ public class Arrows {
     return ObjectUtils.firstNonNull(toObject, toBoolean);
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setTo(final Object to) {
+    if (to != null) {
+      if (to instanceof ArrowHead) {
+        setTo(((ArrowHead) to));
+      }
+      if (to instanceof Boolean) {
+        setTo(((Boolean) to));
+      }
+    }
+  }
+
   public void setTo(final ArrowHead to) {
     this.toObject = to;
     this.toBoolean = null;
@@ -61,6 +75,18 @@ public class Arrows {
     return ObjectUtils.firstNonNull(middleObject, middleBoolean);
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setMiddle(final Object middle) {
+    if (middle != null) {
+      if (middle instanceof ArrowHead) {
+        setMiddle(((ArrowHead) middle));
+      }
+      if (middle instanceof Boolean) {
+        setMiddle(((Boolean) middle));
+      }
+    }
+  }
+
   public void setMiddle(final ArrowHead middle) {
     this.middleObject = middle;
     this.middleBoolean = null;
@@ -82,6 +108,18 @@ public class Arrows {
   @JsonGetter
   public Object getFrom() {
     return ObjectUtils.firstNonNull(fromObject, fromBoolean);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setFrom(final Object from) {
+    if (from != null) {
+      if (from instanceof ArrowHead) {
+        setFrom(((ArrowHead) from));
+      }
+      if (from instanceof Boolean) {
+        setFrom(((Boolean) from));
+      }
+    }
   }
 
   public void setFrom(final ArrowHead from) {

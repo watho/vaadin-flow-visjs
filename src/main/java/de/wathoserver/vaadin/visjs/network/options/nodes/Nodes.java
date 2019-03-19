@@ -6,7 +6,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 
 import de.wathoserver.vaadin.visjs.network.util.Fixed;
 import de.wathoserver.vaadin.visjs.network.util.Font;
@@ -17,7 +18,6 @@ import de.wathoserver.vaadin.visjs.network.util.ShapeProperties;
 
 /**
  */
-@JsonDeserialize(builder = Nodes.Builder.class)
 public class Nodes {
 
   private Integer borderWidth;
@@ -151,26 +151,28 @@ public class Nodes {
     this.borderWidthSelected = borderWidthSelected;
   }
 
-  /**
-   * if set colorStr returns
-   *
-   * @return colorStr if set, else color else null
-   */
-  @JsonGetter(value = "color")
-  protected Object getColorJson() {
+  @JsonGetter()
+  protected Object getColor() {
+    return ObjectUtils.firstNonNull(color, colorStr);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setColor(final Object color) {
     if (color != null) {
-      return color;
-    } else if (colorStr != null) {
-      return colorStr;
+      if (color instanceof NodeColor) {
+        setColor(((NodeColor) color));
+      }
+      if (color instanceof String) {
+        setColor(((String) color));
+      }
     }
-    return null;
   }
 
   public String getColorStr() {
     return colorStr;
   }
 
-  public NodeColor getColor() {
+  public NodeColor getColorObject() {
     return color;
   }
 
@@ -187,6 +189,18 @@ public class Nodes {
   @JsonGetter
   public Object getFixed() {
     return ObjectUtils.firstNonNull(fixedObject, fixedBoolean);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setFixed(final Object fixed) {
+    if (fixed != null) {
+      if (fixed instanceof Fixed) {
+        setFixed(((Fixed) fixed));
+      }
+      if (fixed instanceof Boolean) {
+        setFixed(((Boolean) fixed));
+      }
+    }
   }
 
   public Boolean getFixedBoolean() {
@@ -212,6 +226,18 @@ public class Nodes {
     return ObjectUtils.firstNonNull(fontObject, fontStr);
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setFont(final Object font) {
+    if (font != null) {
+      if (font instanceof Font) {
+        setFont(((Font) font));
+      }
+      if (font instanceof String) {
+        setFont(((String) font));
+      }
+    }
+  }
+
   public Font getFontObject() {
     return fontObject;
   }
@@ -234,6 +260,21 @@ public class Nodes {
   public Object getHeightConstraint() {
     return ObjectUtils.firstNonNull(heightConstraintObject, heightConstraintInteger,
         heightConstraintBoolean);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setHeightConstraint(final Object heightContraint) {
+    if (heightContraint != null) {
+      if (heightContraint instanceof HeightConstraint) {
+        setHeightConstraint(((HeightConstraint) heightContraint));
+      }
+      if (heightContraint instanceof Integer) {
+        setHeightConstraint(((Integer) heightContraint));
+      }
+      if (heightContraint instanceof Boolean) {
+        setHeightConstraint(((Boolean) heightContraint));
+      }
+    }
   }
 
   public void setHeightConstraint(HeightConstraint heightConstraintObject) {
@@ -321,6 +362,18 @@ public class Nodes {
     return ObjectUtils.firstNonNull(marginObject, marginInteger);
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setMargin(final Object margin) {
+    if (margin != null) {
+      if (margin instanceof Margin) {
+        setMargin(((Margin) margin));
+      }
+      if (margin instanceof Integer) {
+        setMargin(((Integer) margin));
+      }
+    }
+  }
+
   public void setMargin(Integer marginInteger) {
     this.marginInteger = marginInteger;
     this.marginObject = null;
@@ -366,6 +419,18 @@ public class Nodes {
   @JsonGetter
   public Object getShadow() {
     return ObjectUtils.firstNonNull(shadowObject, shadowBoolean);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setShadow(final Object shadow) {
+    if (shadow != null) {
+      if (shadow instanceof Shadow) {
+        setShadow(((Shadow) shadow));
+      }
+      if (shadow instanceof Boolean) {
+        setShadow(((Boolean) shadow));
+      }
+    }
   }
 
   public Boolean getShadowBoolean() {
@@ -430,6 +495,21 @@ public class Nodes {
   public Object getWidthConstraint() {
     return ObjectUtils.firstNonNull(widthConstraintObject, widthConstraintInteger,
         widthConstraintBoolean);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setWidthConstraint(final Object widthContraint) {
+    if (widthContraint != null) {
+      if (widthContraint instanceof WidthConstraint) {
+        setWidthConstraint((widthContraint));
+      }
+      if (widthContraint instanceof Integer) {
+        setWidthConstraint((widthContraint));
+      }
+      if (widthContraint instanceof Boolean) {
+        setWidthConstraint((widthContraint));
+      }
+    }
   }
 
   public void setWidthConstraint(WidthConstraint widthConstraintObject) {
