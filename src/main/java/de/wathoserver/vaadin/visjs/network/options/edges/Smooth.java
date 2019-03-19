@@ -6,6 +6,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(builder = Smooth.Builder.class)
@@ -56,6 +58,18 @@ public class Smooth {
   @JsonGetter
   public Object getForceDirection() {
     return ObjectUtils.firstNonNull(forceDirectionBoolean, forceDirectionEnum);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setForceDirection(final Object forceDirection) {
+    if (forceDirection != null) {
+      if (forceDirection instanceof ForceDirection) {
+        setForceDirection(((ForceDirection) forceDirection));
+      }
+      if (forceDirection instanceof Boolean) {
+        setForceDirection(((Boolean) forceDirection));
+      }
+    }
   }
 
   public Boolean getForceDirectionBoolean() {

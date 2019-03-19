@@ -6,6 +6,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(builder = EdgeColor.Builder.class)
@@ -66,6 +68,18 @@ public class EdgeColor {
   @JsonGetter
   public Object getInherit() {
     return ObjectUtils.firstNonNull(inheritBoolean, inheritEnum);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setInherit(final Object inherit) {
+    if (inherit != null) {
+      if (inherit instanceof Inherit) {
+        setInherit(((Inherit) inherit));
+      }
+      if (inherit instanceof Boolean) {
+        setInherit(((Boolean) inherit));
+      }
+    }
   }
 
   public void setInherit(Inherit inherit) {

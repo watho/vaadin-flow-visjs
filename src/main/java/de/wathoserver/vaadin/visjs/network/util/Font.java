@@ -6,6 +6,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
@@ -138,6 +140,18 @@ public class Font {
     return ObjectUtils.firstNonNull(multiBoolean, multiEnum);
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setMulti(final Object multi) {
+    if (multi != null) {
+      if (multi instanceof Multi) {
+        setMulti(((Multi) multi));
+      }
+      if (multi instanceof Boolean) {
+        setMulti(((Boolean) multi));
+      }
+    }
+  }
+
   public void setMulti(Multi multi) {
     this.multiEnum = multi;
     this.multiBoolean = null;
@@ -156,6 +170,18 @@ public class Font {
       return boldStr;
     }
     return null;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setBold(final Object bold) {
+    if (bold != null) {
+      if (bold instanceof FontStyle) {
+        setBold(((FontStyle) bold));
+      }
+      if (bold instanceof String) {
+        setBold(((String) bold));
+      }
+    }
   }
 
   public void setBold(FontStyle boldStyle) {
@@ -178,6 +204,18 @@ public class Font {
     return null;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setItal(final Object ital) {
+    if (ital != null) {
+      if (ital instanceof FontStyle) {
+        setItal(((FontStyle) ital));
+      }
+      if (ital instanceof String) {
+        setItal(((String) ital));
+      }
+    }
+  }
+
   public void setItal(FontStyle italStyle) {
     this.italStyle = italStyle;
     this.italStr = null;
@@ -198,6 +236,18 @@ public class Font {
     return null;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setBoldital(final Object boldital) {
+    if (boldital != null) {
+      if (boldital instanceof FontStyle) {
+        setBoldital(((FontStyle) boldital));
+      }
+      if (boldital instanceof String) {
+        setBoldital(((String) boldital));
+      }
+    }
+  }
+
   public void setBoldital(FontStyle bolditalStyle) {
     this.bolditalStyle = bolditalStyle;
     this.bolditalStr = null;
@@ -216,6 +266,18 @@ public class Font {
       return monoStr;
     }
     return null;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setMono(final Object mono) {
+    if (mono != null) {
+      if (mono instanceof FontStyle) {
+        setMono(((FontStyle) mono));
+      }
+      if (mono instanceof String) {
+        setMono(((String) mono));
+      }
+    }
   }
 
   public void setMono(FontStyle monoStyle) {

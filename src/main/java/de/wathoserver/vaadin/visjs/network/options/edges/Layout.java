@@ -6,6 +6,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import de.wathoserver.vaadin.visjs.network.options.HierarchicalLayout;
@@ -48,6 +50,18 @@ public class Layout {
   @JsonGetter
   public Object getHierarchical() {
     return ObjectUtils.firstNonNull(hierarchicalObject, hierarchicalBoolean);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setHierarchical(final Object hierarchical) {
+    if (hierarchical != null) {
+      if (hierarchical instanceof HierarchicalLayout) {
+        setHierarchical((hierarchical));
+      }
+      if (hierarchical instanceof Boolean) {
+        setHierarchical(((Boolean) hierarchical));
+      }
+    }
   }
 
   public void setHierarchical(Boolean hierarchical) {

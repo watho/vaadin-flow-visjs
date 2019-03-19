@@ -6,6 +6,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(builder = ShapeProperties.Builder.class)
@@ -33,6 +35,18 @@ public class ShapeProperties {
   @JsonGetter
   public Object getBorderDashes() {
     return ObjectUtils.firstNonNull(borderDashesArray, borderDashesBoolean);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setBorderDashes(final Object borderDashes) {
+    if (borderDashes != null) {
+      if (borderDashes instanceof Integer[]) {
+        setBorderDashes(((Integer[]) borderDashes));
+      }
+      if (borderDashes instanceof Boolean) {
+        setBorderDashes(((Boolean) borderDashes));
+      }
+    }
   }
 
   public Boolean getBorderDashesBoolean() {

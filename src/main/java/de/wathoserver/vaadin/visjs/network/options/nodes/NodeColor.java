@@ -6,6 +6,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import de.wathoserver.vaadin.visjs.network.util.SimpleColor;
@@ -45,9 +47,21 @@ public class NodeColor {
     this.opacity = opacity;
   }
 
-  @JsonGetter(value = "hover")
+  @JsonGetter()
   public Object getHover() {
     return ObjectUtils.firstNonNull(hoverColor, hoverStr);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setHover(final Object hoverColor) {
+    if (hoverColor != null) {
+      if (hoverColor instanceof SimpleColor) {
+        setHover(((SimpleColor) hoverColor));
+      }
+      if (hoverColor instanceof String) {
+        setHover(((String) hoverColor));
+      }
+    }
   }
 
   public SimpleColor getHoverColor() {
@@ -68,9 +82,21 @@ public class NodeColor {
     this.hoverColor = null;
   }
 
-  @JsonGetter(value = "highlight")
+  @JsonGetter()
   public Object getHighlight() {
     return ObjectUtils.firstNonNull(highlightColor, highlightStr);
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP, contentNulls = Nulls.SKIP)
+  private void setHighlight(final Object highlightColor) {
+    if (highlightColor != null) {
+      if (highlightColor instanceof SimpleColor) {
+        setHighlight(((SimpleColor) highlightColor));
+      }
+      if (highlightColor instanceof String) {
+        setHighlight(((String) highlightColor));
+      }
+    }
   }
 
   public void setHighlight(final SimpleColor highlightColor) {

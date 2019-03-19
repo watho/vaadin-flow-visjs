@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import de.wathoserver.vaadin.visjs.network.options.cluster.Cluster;
 import de.wathoserver.vaadin.visjs.network.options.edges.Edges;
 import de.wathoserver.vaadin.visjs.network.options.edges.Layout;
 import de.wathoserver.vaadin.visjs.network.options.nodes.Nodes;
@@ -28,7 +29,7 @@ public class Options {
   private Physics physics;
   private Edges edges;
   private Nodes nodes;
-  // private Cluster clustering;
+  private Cluster clustering;
   private Layout layout;
 
   private Options(Builder builder) {
@@ -49,6 +50,14 @@ public class Options {
   }
 
   public Options() {}
+
+  public Cluster getClustering() {
+    return clustering;
+  }
+
+  public void setClustering(Cluster clustering) {
+    this.clustering = clustering;
+  }
 
   public Map<String, Nodes> getGroups() {
     return groups;
