@@ -11,7 +11,7 @@
 	<description>Integration of vis.js library for Vaadin platform</description>
 
 	<properties>
-		<vaadin.version>10.0.11</vaadin.version>
+		<vaadin.version>14.0.9</vaadin.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -61,9 +61,9 @@
 			<artifactId>slf4j-simple</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- The following dependency is generated using webjars.org. If it does 
+		<!-- The following dependency is generated using webjars.org. If it does
 			not resolve, go to https://www.webjars.org and deploy it as "Bower GitHub" -->
-		<!-- <dependency> <groupId>org.webjars</groupId> <artifactId>visjs</artifactId> 
+		<!-- <dependency> <groupId>org.webjars</groupId> <artifactId>visjs</artifactId>
 			<version>4.21.0</version> </dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
@@ -72,11 +72,29 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.8</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>3.0.2</version>
+			<scope>compile</scope>
+		</dependency>
 
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<version>${vaadin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-frontend</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -94,7 +112,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
@@ -106,12 +123,6 @@
 					<supportedPackagings>
 						<supportedPackaging>jar</supportedPackaging>
 					</supportedPackagings>
-					<webAppConfig>
-						<!-- This is only needed to be able to unzip webjars directly into 
-							src/test/webjar-debug and modify them for testing -->
-						<!-- <resourceBase>src/test/webjar-debug/META-INF/resources</resourceBase> -->
-						<resourceBase>${project.basedir}/src/main/resources/META-INF/resources</resourceBase>
-					</webAppConfig>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -122,6 +133,18 @@
 			<id>directory</id>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>com.vaadin</groupId>
+						<artifactId>vaadin-maven-plugin</artifactId>
+						<version>${vaadin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>build-frontend</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-assembly-plugin</artifactId>
