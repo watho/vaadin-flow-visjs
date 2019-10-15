@@ -1,3 +1,6 @@
+import * as vis from 'vis-network/dist/vis-network.min.js';
+import 'vis-network/dist/vis-network.min.css';
+
 window.Vaadin.Flow.networkDiagramConnector = {
 	initLazy : function(graph, initialNodes, initialEdges, options) {
 
@@ -12,7 +15,7 @@ window.Vaadin.Flow.networkDiagramConnector = {
 		console.log(initialNodes);
 		graph.nodes = new vis.DataSet(JSON.parse(initialNodes));
 		graph.edges = new vis.DataSet(JSON.parse(initialEdges));
-		
+
 
 		var self = this;
 		var customNodeifAdded = false;

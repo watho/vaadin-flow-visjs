@@ -1,5 +1,8 @@
 package de.wathoserver.vaadin.visjs.network;
 
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.dependency.NpmPackage;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -104,10 +107,9 @@ import elemental.json.impl.JreJsonString;
  */
 @SuppressWarnings("serial")
 @Tag("div")
-@JavaScript("frontend://de/wathoserver/vaadin/visjs/vis-patched.min.js")
-@JavaScript("frontend://de/wathoserver/vaadin/visjs/networkDiagram-connector-flow.js")
-@StyleSheet("frontend://de/wathoserver/vaadin/visjs/vis-network.min.css")
-@StyleSheet("frontend://de/wathoserver/vaadin/visjs/networkDiagram.css")
+@NpmPackage(value = "vis-network", version = "6.1.1")
+@JsModule("./visjs/networkDiagram-connector-flow.js")
+@CssImport("./visjs/networkDiagram.css")
 public class NetworkDiagram extends Component implements HasSize {
 
   Logger log = LoggerFactory.getLogger(NetworkDiagram.class);
@@ -162,7 +164,7 @@ public class NetworkDiagram extends Component implements HasSize {
         .orElseThrow(() -> new IllegalStateException(
             "Connector can only be initialized for an attached NetworkDiagram"))
         .getPage()
-        .executeJavaScript("window.Vaadin.Flow.networkDiagramConnector.initLazy($0, $1, $2, $3)",
+        .executeJs("window.Vaadin.Flow.networkDiagramConnector.initLazy($0, $1, $2, $3)",
             getElement(), nodesArray, edgesArray, optionsToJson(options));
     // TODO reinitialise listener
     // getEventBus().hasListener(eventType)
