@@ -2,11 +2,11 @@
 
 Vaadin 14 Java integration of [vis-network](https://github.com/visjs/vis-network)
 
-[![Published on Vaadin Directory](https://img.shields.io/vaadin-directory/status/vaadin-visjs-network)](https://vaadin.com/directory/component/vaadin-visjs-network)
-[![Vaadin Directory version for visjs-vaadin-component](http://img.shields.io/vaadin-directory/version/vaadin-visjs-network)](https://vaadin.com/directory/component/vaadin-visjs-network)
-[![Vaadin Directory release for visjs-vaadin-component](http://img.shields.io/vaadin-directory/release-date/vaadin-visjs-network)](https://vaadin.com/directory/component/vaadin-visjs-network)
-[![Vaadin Directory star rating for visjs-vaadin-component](http://img.shields.io/vaadin-directory/star/vaadin-visjs-network)](https://vaadin.com/directory/component/vaadin-visjs-network)
-[![Vaadin Directory star rating for visjs-vaadin-component](http://img.shields.io/vaadin-directory/rating-count/vaadin-visjs-network)](https://vaadin.com/directory/component/vaadin-visjs-network)
+[![Published on Vaadin Directory](https://img.shields.io/vaadin-directory/status/vis-network-vaadin)](https://vaadin.com/directory/component/vis-network-vaadin)
+[![Vaadin Directory version for visjs-vaadin-component](http://img.shields.io/vaadin-directory/version/vis-network-vaadin)](https://vaadin.com/directory/component/vis-network-vaadin)
+[![Vaadin Directory release for visjs-vaadin-component](http://img.shields.io/vaadin-directory/release-date/vis-network-vaadin)](https://vaadin.com/directory/component/vis-network-vaadin)
+[![Vaadin Directory star rating for visjs-vaadin-component](http://img.shields.io/vaadin-directory/star/vis-network-vaadin)](https://vaadin.com/directory/component/vis-network-vaadin)
+[![Vaadin Directory star rating for visjs-vaadin-component](http://img.shields.io/vaadin-directory/rating-count/vis-network-vaadin)](https://vaadin.com/directory/component/vis-network-vaadin)
 
 ---
 [Vis.js](http://visjs.org) is a dynamic, browser based visualization library. The library uses JSON for configuration and communication.
@@ -16,7 +16,7 @@ Vaadin 14 Java integration of [vis-network](https://github.com/visjs/vis-network
 ![example](doc/simpleexample.png)
 
 - Forked from [watho/vaadin-flow-visjs](https://github.com/watho/vaadin-flow-visjs)
-- Implements the **new version vis.js network module (9.0.4)** for **Vaadin 14(LTS)**.
+- Implements the new version of **vis.js network module (9.0.4)** for **Vaadin 14(LTS)**.
 - Supports **NPM** mode on Vaadin 14+
   
 ### vis-network documentation:

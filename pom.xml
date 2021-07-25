@@ -2,9 +2,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.vaadin.addons.visjs.network</groupId>
-    <artifactId>vaadin-visjs-network</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>vaadin-visjs-network</name>
+    <artifactId>vis-network-vaadin</artifactId>
+    <version>1.0.0</version>
+    <name>vis-network-vaadin</name>
     <description>Integration of vis-network for Vaadin platform</description>
 
     <properties>
