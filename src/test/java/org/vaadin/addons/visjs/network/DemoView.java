@@ -41,8 +41,10 @@ public class DemoView extends VerticalLayout {
     final ListDataProvider<Node> dataProvider = new ListDataProvider<>(nodes);
     nd.setNodesDataProvider(dataProvider);
     nd.setEdges(new Edge("1", "3"), new Edge("1", "2"), new Edge("2", "4"), new Edge("2", "5"), new Edge("3", "3"));
-    final Registration registration = nd.addSelectNodeListener(
-        ls -> Notification.show("NodeId selected " + ls.getParams().getArray("nodes").toJson()));
+    final Registration registrationSelect = nd.addSelectNodeListener(
+            ls -> Notification.show("NodeId selected " + ls.getParams().getArray("nodes").toJson()));
+    final Registration registrationDeselect =  nd.addDeselectNodeListener(
+            ls -> Notification.show("NodeId deselected " + ls.getParams().getObject("previousSelection").getArray("nodes").toJson()));
     add(nd);
     add(new HorizontalLayout(new Button("Add Node", e -> {
       final String id = (idCounter.incrementAndGet())+"";
@@ -51,7 +53,8 @@ public class DemoView extends VerticalLayout {
     }), new Button("remove all Nodes", e -> {
       nodes.clear();
       dataProvider.refreshAll();
-      registration.remove();
+      registrationSelect.remove();
+      registrationDeselect.remove();
     }), new Button("fit", e -> {
       nd.diagramFit();
     }), new Button("selectNode", e -> {

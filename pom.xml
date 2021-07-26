@@ -3,7 +3,7 @@
 
     <groupId>org.vaadin.addons.visjs.network</groupId>
     <artifactId>vis-network-vaadin</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>vis-network-vaadin</name>
     <description>Integration of vis-network for Vaadin platform</description>
 

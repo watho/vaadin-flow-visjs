@@ -107,7 +107,7 @@ import com.vaadin.flow.component.dependency.NpmPackage;
 @JsModule("./vis-loader.js")
 @JsModule("./networkDiagram-connector-flow.js")
 @JsModule("vis-network/standalone/umd/vis-network.min.js")
-@NpmPackage(value = "vis-network", version = "9.0.4")
+@NpmPackage(value = "vis-network", version = "9.0.5")
 public class NetworkDiagram extends Component implements HasSize {
 
   Logger log = LoggerFactory.getLogger(NetworkDiagram.class);

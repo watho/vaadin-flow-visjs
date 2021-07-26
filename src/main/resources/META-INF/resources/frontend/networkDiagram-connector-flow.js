@@ -85,6 +85,11 @@ window.Vaadin.Flow.networkDiagramConnector = {
 																			+ "should not be sent to the server and can cause a cyclic dependecy.");
 															delete params[key];
 														}
+														if (key === 'previousSelection') {
+															// map object arrays to id for deselect event
+															params[key]['nodes'] = params[key]['nodes'].map(obj => obj.id);
+															params[key]['edges'] = params[key]['edges'].map(obj => obj.id);
+														}
 														return value;
 													});
 								}
