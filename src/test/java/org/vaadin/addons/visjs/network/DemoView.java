@@ -13,6 +13,9 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
 
+import org.vaadin.addons.visjs.network.main.Edge;
+import org.vaadin.addons.visjs.network.main.NetworkDiagram;
+import org.vaadin.addons.visjs.network.main.Node;
 import org.vaadin.addons.visjs.network.options.Options;
 
 @SuppressWarnings("serial")

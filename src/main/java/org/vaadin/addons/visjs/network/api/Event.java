@@ -2,7 +2,7 @@ package org.vaadin.addons.visjs.network.api;
 
 import com.vaadin.flow.component.ComponentEvent;
 
-import org.vaadin.addons.visjs.network.NetworkDiagram;
+import org.vaadin.addons.visjs.network.main.NetworkDiagram;
 import elemental.json.JsonObject;
 
 @SuppressWarnings("serial")

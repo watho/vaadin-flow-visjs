@@ -1,4 +1,4 @@
-package org.vaadin.addons.visjs.network;
+package org.vaadin.addons.visjs.network.main;
 
 import org.vaadin.addons.visjs.network.options.nodes.Nodes;
 
